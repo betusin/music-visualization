@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 
+const _MIN_AMPLITUDE = 1.0;
+
 class VibrationAdjustments extends StatefulWidget {
   const VibrationAdjustments({
     super.key,
@@ -11,7 +13,7 @@ class VibrationAdjustments extends StatefulWidget {
 }
 
 class _VibrationAdjustmentsState extends State<VibrationAdjustments> {
-  int _amplitude = 0;
+  double _amplitude = _MIN_AMPLITUDE;
   int _durationInMs = 500;
 
   @override
@@ -20,9 +22,9 @@ class _VibrationAdjustmentsState extends State<VibrationAdjustments> {
       children: [
         Flexible(
           child: Slider(
-            value: _amplitude.toDouble(),
-            onChanged: (value) => setState(() => _amplitude = value.toInt()),
-            min: 0,
+            value: _amplitude,
+            onChanged: (value) => setState(() => _amplitude = value),
+            min: _MIN_AMPLITUDE,
             max: 255,
             label: '$_amplitude',
           ),
@@ -44,7 +46,7 @@ class _VibrationAdjustmentsState extends State<VibrationAdjustments> {
             ElevatedButton(
               onPressed: () => Vibration.vibrate(
                 // duration: _durationInMs,
-                amplitude: _amplitude,
+                amplitude: _amplitude.toInt(),
               ),
               child: Text('Start Vibration'),
             ),
