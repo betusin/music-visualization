@@ -22,11 +22,12 @@ class _VibrationAdjustmentsState extends State<VibrationAdjustments> {
       children: [
         Flexible(
           child: Slider(
+            divisions: 15,
             value: _amplitude,
             onChanged: (value) => setState(() => _amplitude = value),
             min: _MIN_AMPLITUDE,
             max: 255,
-            label: '$_amplitude',
+            label: _amplitude.toInt().toString(),
           ),
         ),
         Flexible(
