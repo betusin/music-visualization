@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
+import 'package:vibration_poc/animation/music_animation.dart';
 import 'package:vibration_poc/vibration_adjustments.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,6 +13,7 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(child: _buildVibration()),
+          Expanded(child: MusicAnimation()),
         ],
       ),
     );
