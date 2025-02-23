@@ -5,6 +5,8 @@ import 'package:get_it/get_it.dart';
 import 'package:record/record.dart';
 import 'package:rxdart/rxdart.dart';
 
+const _amplitudeNormalizationFactor = 29;
+
 class RecorderController implements Disposable {
   final _recorder = AudioRecorder();
   final _streamController = BehaviorSubject<Uint8List?>.seeded(null);
@@ -28,6 +30,13 @@ class RecorderController implements Disposable {
   }
 
   Future<Amplitude> getAmplitude() async => await _recorder.getAmplitude();
+
+  Future<double> getCurrentNormalizedAmplitude() async {
+    final amplitude = await _recorder.getAmplitude();
+    // TODO(betka): find out a better normalization
+    final normalizedCurrentAmplitude = amplitude.current + _amplitudeNormalizationFactor;
+    return normalizedCurrentAmplitude;
+  }
 
   @override
   void onDispose() {
