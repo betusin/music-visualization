@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -74,8 +73,4 @@ class _SimpleRecorderState extends State<SimpleRecorder> {
       },
     );
   }
-}
-
-extension LogExtension on double {
-  double log10() => this > 0 ? (log(this) / ln10) : -160.0;
 }
