@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:get_it/get_it.dart';
@@ -7,6 +8,7 @@ import 'package:rxdart/rxdart.dart';
 class RecorderController implements Disposable {
   final _recorder = AudioRecorder();
   final _streamController = BehaviorSubject<Uint8List?>.seeded(null);
+  StreamSubscription<Uint8List>? _streamSubscription;
 
   Stream<Uint8List?> get stream => _streamController.stream;
 
@@ -15,14 +17,14 @@ class RecorderController implements Disposable {
   Future<void> startRecording() async {
     if (await hasPermission()) {
       final recordingStream = await _recorder.startStream(const RecordConfig(encoder: AudioEncoder.pcm16bits));
-      // TODO(betka): close subscription
-      recordingStream.listen((event) => _streamController.add(event));
+      _streamSubscription = recordingStream.listen((event) => _streamController.add(event));
     }
   }
 
   Future<void> stopRecording() async {
     await _recorder.stop();
     _streamController.add(null);
+    _streamSubscription?.cancel();
   }
 
   Future<Amplitude> getAmplitude() async => await _recorder.getAmplitude();
@@ -30,5 +32,6 @@ class RecorderController implements Disposable {
   @override
   void onDispose() {
     _streamController.close();
+    _streamSubscription?.cancel();
   }
 }
