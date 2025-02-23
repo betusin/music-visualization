@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   vibration: ^2.0.1
   p5: ^0.1.0
+  record: ^5.2.1
 
 dev_dependencies:
   flutter_test:

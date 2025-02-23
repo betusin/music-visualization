@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import 'package:vibration_poc/animation/music_animation.dart';
+import 'package:vibration_poc/recorder/widget/simple_recorder.dart';
 import 'package:vibration_poc/vibration_adjustments.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,6 +13,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(title: Text('Custom Vibration Demo')),
       body: Column(
         children: [
+          Expanded(child: SimpleRecorder()),
           Expanded(child: _buildVibration()),
           Expanded(child: MusicAnimation()),
         ],
