@@ -16,7 +16,7 @@ class _MusicAnimationState extends State<MusicAnimation> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    sketch = Sketch();
+    sketch = AmplitudeSketch();
     // Need an animator to call the draw() method in the sketch continuously,
     // otherwise it will be called only when touch events are detected.
     animator = PAnimator(this);

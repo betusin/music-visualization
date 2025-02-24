@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:record/record.dart';
 import 'package:rxdart/rxdart.dart';
 
-const _amplitudeNormalizationFactor = 29;
+const _amplitudeNormalizationFactor = 32;
 
 class RecorderController implements Disposable {
   final _recorder = AudioRecorder();
@@ -36,6 +36,19 @@ class RecorderController implements Disposable {
     // TODO(betka): find out a better normalization
     final normalizedCurrentAmplitude = amplitude.current + _amplitudeNormalizationFactor;
     return normalizedCurrentAmplitude;
+  }
+
+  Stream<Future<Amplitude>?> getAmplitudePeriodicStream() {
+    final periodicStream = Stream.periodic(
+      Duration(milliseconds: 200),
+      (computationCount) => computationCount,
+    );
+
+    return Rx.combineLatest2(
+      periodicStream,
+      _streamController.stream,
+      (_, audioBytes) => audioBytes == null ? null : getAmplitude(),
+    );
   }
 
   @override
