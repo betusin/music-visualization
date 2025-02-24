@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:p5/p5.dart';
-import 'package:vibration_poc/animation/sketch.dart';
+import 'package:p5/animator.dart';
+import 'package:p5/painter.dart';
+import 'package:p5/widget/pwidget.dart';
+import 'package:vibration_poc/animation/amplitude_sketch.dart';
 
 class MusicAnimation extends StatefulWidget {
   const MusicAnimation({super.key});
@@ -10,7 +12,7 @@ class MusicAnimation extends StatefulWidget {
 }
 
 class _MusicAnimationState extends State<MusicAnimation> with SingleTickerProviderStateMixin {
-  late final Sketch sketch;
+  late final Painter sketch;
   late final PAnimator animator;
 
   @override

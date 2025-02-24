@@ -195,10 +195,9 @@ packages:
   p5:
     dependency: "direct main"
     description:
-      name: p5
-      sha256: b76f6f8a660f8b1fe6b48959fe4200d2b5ad8fc9ffc2a84d31b43c58506cbd08
-      url: "https://pub.dev"
-    source: hosted
+      path: "../p5dart"
+      relative: true
+    source: path
     version: "0.1.0"
   path:
     dependency: transitive

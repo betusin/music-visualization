@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:p5/model/vector.dart';
 import 'package:p5/painter.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 
 const _strokeWeight = 2;
 
-class AmplitudeSketch extends PPainter {
+class AmplitudeSketch extends Painter {
   static double xPosition = 0;
   final _recorderController = get<RecorderController>();
   final amplitudes = <double>[];
