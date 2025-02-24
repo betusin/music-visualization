@@ -26,29 +26,24 @@ class AmplitudeSketch extends Painter {
     strokeWeight(_strokeWeight);
     stroke(Colors.red);
 
-    var previousVectorAmplitude = PVector(0, height.toDouble());
+    beginShape();
 
-    for (final amplitude in amplitudes) {
-      final amplitudeVector =
-          PVector(previousVectorAmplitude.x + 1, height.toDouble() - previousVectorAmplitude.y + amplitude);
-
-      line(
-        previousVectorAmplitude.x * _strokeWeight,
-        previousVectorAmplitude.y,
-        amplitudeVector.x * _strokeWeight,
-        amplitudeVector.y,
-      );
-
-      previousVectorAmplitude = amplitudeVector;
+    for (final (i, amplitude) in amplitudes.indexed) {
+      final y = pMap(amplitude, minAmplitudeValue, maxAmplitudeValue, height, 0);
+      vertex(i, y);
     }
+
+    endShape();
   }
 
   Future<void> updateAmplitudes() async {
     await for (final future in _recorderController.getAmplitudePeriodicStream()) {
       final amplitudeData = await future;
       if (amplitudeData != null) {
-        final amplitude = (await _recorderController.getAmplitude()).current + 160;
-        amplitudes.add(amplitude);
+        amplitudes.add(amplitudeData.current);
+        if (amplitudes.length > width) {
+          amplitudes.removeAt(0);
+        }
       }
     }
   }
