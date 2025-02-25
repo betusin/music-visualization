@@ -29,7 +29,7 @@ class AmplitudeSketch extends Painter {
     beginShape();
 
     for (final (i, amplitude) in amplitudes.indexed) {
-      final y = pMap(amplitude, minAmplitudeValue, maxAmplitudeValue, height, 0);
+      final y = pMap(amplitude, minPossibleAmplitudeValue, maxPossibleAmplitudeValue, height, 0);
       vertex(i, y);
     }
 

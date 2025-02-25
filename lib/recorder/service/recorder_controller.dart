@@ -8,8 +8,8 @@ import 'package:rxdart/rxdart.dart';
 const _amplitudeNormalizationFactor = 32;
 
 // these values are just guessed based on few experiments
-const minAmplitudeValue = -50;
-const maxAmplitudeValue = 10;
+const minPossibleAmplitudeValue = -50;
+const maxPossibleAmplitudeValue = 10;
 
 class RecorderController implements Disposable {
   final _recorder = AudioRecorder();
