@@ -3,9 +3,7 @@ import 'package:vibration/vibration.dart';
 import 'package:vibration_poc/vibration/util/amplitude_constants.dart';
 
 class VibrationAdjustments extends StatefulWidget {
-  const VibrationAdjustments({
-    super.key,
-  });
+  const VibrationAdjustments({super.key});
 
   @override
   State<VibrationAdjustments> createState() => _VibrationAdjustmentsState();
