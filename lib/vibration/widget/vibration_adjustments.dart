@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-
-const _minAmplitude = 1.0;
+import 'package:vibration_poc/vibration/util/amplitude_constants.dart';
 
 class VibrationAdjustments extends StatefulWidget {
   const VibrationAdjustments({
@@ -13,7 +12,7 @@ class VibrationAdjustments extends StatefulWidget {
 }
 
 class _VibrationAdjustmentsState extends State<VibrationAdjustments> {
-  double _amplitude = _minAmplitude;
+  double _amplitude = minAmplitude;
   int _durationInMs = 500;
 
   @override
@@ -25,8 +24,8 @@ class _VibrationAdjustmentsState extends State<VibrationAdjustments> {
             divisions: 15,
             value: _amplitude,
             onChanged: (value) => setState(() => _amplitude = value),
-            min: _minAmplitude,
-            max: 255,
+            min: minAmplitude,
+            max: maxAmplitude,
             label: _amplitude.toInt().toString(),
           ),
         ),

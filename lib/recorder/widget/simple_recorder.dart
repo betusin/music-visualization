@@ -52,7 +52,7 @@ class SimpleRecorder extends StatelessWidget {
           //  which will inject RecordController and vibrate based on the stream
           final amplitude = snapshot.data!;
           Vibration.cancel();
-          Vibration.vibrate(amplitude: amplitude.toInt());
+          Vibration.vibrate(amplitude: amplitude.clamp(minAmplitudeValue, maxAmplitudeValue).toInt());
           return Text('normalized amplitude $amplitude');
         }
         return CircularProgressIndicator();
