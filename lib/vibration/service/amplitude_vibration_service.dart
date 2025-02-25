@@ -20,4 +20,9 @@ class AmplitudeVibrationService {
       }
     }
   }
+
+  // TODO(betka): implement
+  void stopVibrating() {
+    throw UnimplementedError();
+  }
 }

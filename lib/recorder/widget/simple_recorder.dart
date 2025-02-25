@@ -13,18 +13,26 @@ class SimpleRecorder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(onPressed: () => _startRecordingToStream(context), child: Text('start recording')),
-            SizedBox(width: 8),
-            ElevatedButton(onPressed: () => _recorderController.stopRecording(), child: Text('stop recording')),
-          ],
-        ),
+        _buildStartStopRecording(context),
         ElevatedButton(
           onPressed: () => _amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone(),
           child: Text('start vibrating based on input'),
         ),
+        ElevatedButton(
+          onPressed: () => _amplitudeVibrationService.stopVibrating(),
+          child: Text('stop vibrating based on input'),
+        ),
+      ],
+    );
+  }
+
+  Row _buildStartStopRecording(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(onPressed: () => _startRecordingToStream(context), child: Text('start recording')),
+        SizedBox(width: 8),
+        ElevatedButton(onPressed: () => _recorderController.stopRecording(), child: Text('stop recording')),
       ],
     );
   }

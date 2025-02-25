@@ -20,7 +20,6 @@ class HomePage extends StatelessWidget {
           Expanded(child: SimpleRecorder()),
           Expanded(child: VibrationAccessBuilder(child: VibrationAdjustments())),
           Expanded(child: MusicAnimation()),
-          Spacer(),
           Expanded(child: _buildBackgroundServiceButtons()),
         ],
       ),
@@ -35,7 +34,7 @@ class HomePage extends StatelessWidget {
           child: const Text("Quit app and record in the background"),
         ),
         ElevatedButton(
-          onPressed: () => print('not implemented yet'),
+          onPressed: _backgroundServiceHandler.stopBackgroundService,
           child: const Text("Stop recording in the background"),
         ),
       ],

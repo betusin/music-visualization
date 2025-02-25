@@ -19,4 +19,10 @@ class BackgroundServiceHandler {
       debugPrint("Permission denied. Cannot start background recording.");
     }
   }
+
+  void stopBackgroundService() {
+    // TODO(betka): find out how to stop the background service
+    // _amplitudeVibrationService.stopVibrating();
+    throw UnimplementedError();
+  }
 }
