@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/animation/music_animation.dart';
+import 'package:vibration_poc/background/service/background_service_handler.dart';
+import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/widget/simple_recorder.dart';
 import 'package:vibration_poc/vibration/widget/vibration_access_builder.dart';
 import 'package:vibration_poc/vibration/widget/vibration_adjustments.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final BackgroundServiceHandler _backgroundServiceHandler = get<BackgroundServiceHandler>();
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +20,25 @@ class HomePage extends StatelessWidget {
           Expanded(child: SimpleRecorder()),
           Expanded(child: VibrationAccessBuilder(child: VibrationAdjustments())),
           Expanded(child: MusicAnimation()),
+          Spacer(),
+          Expanded(child: _buildBackgroundServiceButtons()),
         ],
       ),
+    );
+  }
+
+  Widget _buildBackgroundServiceButtons() {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: _backgroundServiceHandler.startBackgroundService,
+          child: const Text("Quit app and record in the background"),
+        ),
+        ElevatedButton(
+          onPressed: () => print('not implemented yet'),
+          child: const Text("Stop recording in the background"),
+        ),
+      ],
     );
   }
 }

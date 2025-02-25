@@ -16,12 +16,22 @@ class RecorderController implements Disposable {
   final _streamController = BehaviorSubject<Uint8List?>.seeded(null);
   StreamSubscription<Uint8List>? _streamSubscription;
 
+  Future<bool> get isRecording => _recorder.isRecording();
+
   Stream<Uint8List?> get stream => _streamController.stream;
 
   Future<bool> hasPermission() async => await _recorder.hasPermission();
 
   Future<void> startRecording() async {
+    // TODO(betka): return FailableResult based on which of the following did not succeed
     if (await hasPermission()) {
+      startRecordingInBackground();
+    }
+  }
+
+  /// Same as startRecording(), but does not check if has permission for using the microphone
+  Future<void> startRecordingInBackground() async {
+    if (!await isRecording) {
       final recordingStream = await _recorder.startStream(const RecordConfig(encoder: AudioEncoder.pcm16bits));
       _streamSubscription = recordingStream.listen((event) => _streamController.add(event));
     }

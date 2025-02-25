@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vibration/vibration.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 
@@ -51,8 +50,9 @@ class SimpleRecorder extends StatelessWidget {
           // TODO(betka): this does not need to be in FutureBuilder, move to service,
           //  which will inject RecordController and vibrate based on the stream
           final amplitude = snapshot.data!;
-          Vibration.cancel();
-          Vibration.vibrate(amplitude: amplitude.clamp(minAmplitudeValue, maxAmplitudeValue).toInt());
+          print('not vibrating here :) ');
+          // Vibration.cancel();
+          // Vibration.vibrate(amplitude: amplitude.clamp(minAmplitudeValue, maxAmplitudeValue).toInt());
           return Text('normalized amplitude $amplitude');
         }
         return CircularProgressIndicator();
