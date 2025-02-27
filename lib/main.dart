@@ -55,4 +55,10 @@ void onStart(ServiceInstance service) async {
 
   recorderController.startRecordingInBackground();
   amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone();
+
+  service.on("stopVibration").listen((event) {
+    amplitudeVibrationService.stopVibrating();
+    recorderController.stopRecording();
+    service.stopSelf();
+  });
 }
