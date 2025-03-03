@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/animation/music_animation.dart';
-import 'package:vibration_poc/background/service/background_service_handler.dart';
+import 'package:vibration_poc/background_service/service/background_service_handler.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/widget/simple_recorder.dart';
 import 'package:vibration_poc/vibration/widget/vibration_access_builder.dart';

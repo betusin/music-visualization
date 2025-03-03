@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:vibration_poc/background/service/background_service_handler.dart';
+import 'package:vibration_poc/background_service/service/background_service_handler.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 
