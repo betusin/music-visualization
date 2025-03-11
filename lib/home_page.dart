@@ -1,43 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:vibration_poc/animation/music_animation.dart';
-import 'package:vibration_poc/background_service/service/background_service_handler.dart';
-import 'package:vibration_poc/ioc/ioc_container.dart';
-import 'package:vibration_poc/recorder/widget/simple_recorder.dart';
-import 'package:vibration_poc/vibration/widget/vibration_access_builder.dart';
-import 'package:vibration_poc/vibration/widget/vibration_adjustments.dart';
+import 'package:vibration_poc/background_service/widget/start_stop_buttons.dart';
+import 'package:vibration_poc/recorder/widget/animation_with_vibration_page.dart';
 
-class HomePage extends StatelessWidget {
-  final BackgroundServiceHandler _backgroundServiceHandler = get<BackgroundServiceHandler>();
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
-  HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  static final List<Widget> _pages = <Widget>[
+    AnimationWithVibration(),
+    Expanded(child: StartStopButtons()),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Custom Vibration Demo')),
-      body: Column(
-        children: [
-          Expanded(child: SimpleRecorder()),
-          Expanded(child: VibrationAccessBuilder(child: VibrationAdjustments())),
-          Expanded(child: MusicAnimation()),
-          Expanded(child: _buildBackgroundServiceButtons()),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Music'),
+          BottomNavigationBarItem(icon: Icon(Icons.vibration), label: 'Vibration'),
         ],
+        onTap: (value) => setState(() => _selectedIndex = value),
+        currentIndex: _selectedIndex,
       ),
-    );
-  }
-
-  Widget _buildBackgroundServiceButtons() {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: _backgroundServiceHandler.startBackgroundService,
-          child: const Text("Quit app and record in the background"),
-        ),
-        ElevatedButton(
-          onPressed: _backgroundServiceHandler.stopBackgroundService,
-          child: const Text("Stop recording in the background"),
-        ),
-      ],
+      body: _pages[_selectedIndex],
     );
   }
 }
