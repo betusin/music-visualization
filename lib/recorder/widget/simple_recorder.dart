@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
-import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
+import 'package:vibration_poc/vibration/widget/vibration_switcher_and_adjuster.dart';
 
 class SimpleRecorder extends StatelessWidget {
   final _recorderController = get<RecorderController>();
-  final _amplitudeVibrationService = get<AmplitudeVibrationService>();
 
   SimpleRecorder({super.key});
 
@@ -14,14 +13,7 @@ class SimpleRecorder extends StatelessWidget {
     return Column(
       children: [
         _buildStartStopRecording(context),
-        ElevatedButton(
-          onPressed: () => _amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone(),
-          child: Text('start vibrating based on input'),
-        ),
-        ElevatedButton(
-          onPressed: () => _amplitudeVibrationService.stopVibrating(),
-          child: Text('stop vibrating based on input'),
-        ),
+        VibrationSwitcherAndAdjuster(),
       ],
     );
   }
