@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vibration_poc/animation/music_animation.dart';
+import 'package:vibration_poc/animation/widget/music_animation.dart';
 import 'package:vibration_poc/recorder/widget/simple_recorder.dart';
 
 class AnimationWithVibration extends StatelessWidget {
