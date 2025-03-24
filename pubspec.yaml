@@ -44,6 +44,9 @@ dependencies:
   get_it: ^8.0.3
   rxdart: ^0.27.7
   flutter_background_service: ^5.1.0
+  webview_flutter: ^4.10.0
+  webview_flutter_android: ^4.3.4
+  webview_flutter_wkwebview: ^3.18.4
 
 dev_dependencies:
   flutter_test:
