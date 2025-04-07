@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/background_service/widget/start_stop_buttons.dart';
 import 'package:vibration_poc/recorder/widget/animation_with_vibration_page.dart';
+import 'package:vibration_poc/recorder/widget/preset_visualization.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,8 +13,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static final List<Widget> _pages = <Widget>[
-    AnimationWithVibration(),
+    PresetVisualization(),
+    // TODO(betka): add start vibration based on input/imported file??
     Expanded(child: StartStopButtons()),
+    // TODO(betka): change for better sketch
+    AnimationWithVibration(),
   ];
 
   @override
@@ -22,8 +26,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: Text('Custom Vibration Demo')),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Music'),
+          BottomNavigationBarItem(icon: Icon(Icons.graphic_eq), label: 'Visualization'),
           BottomNavigationBarItem(icon: Icon(Icons.vibration), label: 'Vibration'),
+          BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Music'),
         ],
         onTap: (value) => setState(() => _selectedIndex = value),
         currentIndex: _selectedIndex,
