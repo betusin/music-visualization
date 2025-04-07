@@ -15,7 +15,7 @@ class WebPageDisplay extends StatefulWidget {
 }
 
 class _WebPageDisplayState extends State<WebPageDisplay> {
-  late final WebViewController _controller;
+  late WebViewController _controller;
 
   @override
   void initState() {
@@ -98,6 +98,16 @@ Page resource error:
     // #enddocregion platform_features
 
     _controller = controller;
+  }
+
+  @override
+  void didUpdateWidget(WebPageDisplay oldWidget) {
+    if (oldWidget.url == widget.url) {
+      return;
+    }
+
+    _controller = _controller..loadRequest(Uri.parse(widget.url));
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
