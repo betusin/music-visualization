@@ -83,7 +83,7 @@ Page resource error:
           );
         },
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(parseSave(widget.url));
 
     // setBackgroundColor is not currently supported on macOS.
     if (kIsWeb || !Platform.isMacOS) {
@@ -106,8 +106,15 @@ Page resource error:
       return;
     }
 
-    _controller = _controller..loadRequest(Uri.parse(widget.url));
+    _controller = _controller..loadRequest(parseSave(widget.url));
     super.didUpdateWidget(oldWidget);
+  }
+
+  Uri parseSave(String url) {
+    final uri = Uri.parse(url);
+    final modifiedUriString = uri.toString().replaceAll('+', '%2b');
+
+    return Uri.parse(modifiedUriString);
   }
 
   @override
