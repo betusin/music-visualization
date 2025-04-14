@@ -41,7 +41,7 @@ class _PresetVisualizationState extends State<PresetVisualization> {
       spacing: smallGapSize,
       children: [
         ElevatedButton(onPressed: _pickFile, child: Text("Pick a File")),
-        if (_fileName != null) Text(_fileName!),
+        if (_fileName != null) Flexible(child: Text(_fileName!, overflow: TextOverflow.ellipsis)),
       ],
     );
   }
@@ -52,7 +52,6 @@ class _PresetVisualizationState extends State<PresetVisualization> {
     }
     return Expanded(
       child: WebPageDisplay(
-          // TODO(betka): not loading the proper audio file
           url: 'https://music-visualization-iota.vercel.app/visualization?file=$_fileName&preset=$_selectedPreset'),
     );
   }
