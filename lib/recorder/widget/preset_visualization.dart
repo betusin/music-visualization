@@ -17,6 +17,7 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   final _firebaseStorageService = get<FirebaseStorageService>();
   String _selectedPreset = presets.first;
   String? _fileName;
+  String? _fileId;
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +48,12 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   }
 
   Widget _buildVisualization() {
-    if (_fileName == null) {
+    if (_fileId == null) {
       return Text("Pick a file to visualize");
     }
     return Expanded(
       child: WebPageDisplay(
-          url: 'https://music-visualization-iota.vercel.app/visualization?file=$_fileName&preset=$_selectedPreset'),
+          url: 'https://music-visualization-iota.vercel.app/visualization?file=$_fileId&preset=$_selectedPreset'),
     );
   }
 
@@ -60,8 +61,11 @@ class _PresetVisualizationState extends State<PresetVisualization> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.audio);
 
     if (result != null) {
-      _firebaseStorageService.uploadFile(result);
-      setState(() => _fileName = result.files.first.name);
+      final fileId = await _firebaseStorageService.uploadFile(result);
+      setState(() {
+        _fileName = result.files.first.name;
+        _fileId = fileId;
+      });
     }
   }
 }
