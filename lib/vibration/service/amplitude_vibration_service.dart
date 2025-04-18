@@ -4,10 +4,10 @@ import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:vibration/vibration.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
-import 'package:vibration_poc/vibration/util/amplitude_constants.dart';
+import 'package:vibration_poc/vibration/util/amplitude_converter.dart';
 
 // TODO(betka): the normalization factor was just guessed
-const _defaultAmplitudeNormalizationFactor = 32.0;
+const _defaultAmplitudeNormalizationFactor = 0.0;
 
 class AmplitudeVibrationService implements Disposable {
   final RecorderController _recorderController;
@@ -31,7 +31,7 @@ class AmplitudeVibrationService implements Disposable {
         Vibration.cancel();
         if (amplitudeData != null) {
           final normalizedAmplitude = amplitudeData.current + _amplitudeController.value;
-          final constrainedAmplitude = normalizedAmplitude.clamp(minAmplitude, maxAmplitude);
+          final constrainedAmplitude = AmplitudeConverter.mapDbFsToVibrationAmplitude(normalizedAmplitude);
           Vibration.vibrate(amplitude: constrainedAmplitude.toInt());
         }
       },
