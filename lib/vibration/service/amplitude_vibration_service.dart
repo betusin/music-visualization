@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:vibration/vibration.dart';
+import 'package:vibration_poc/audio/service/audio_file_controller.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 import 'package:vibration_poc/vibration/util/amplitude_converter.dart';
 
@@ -11,13 +12,14 @@ const _defaultAmplitudeNormalizationFactor = 0.0;
 
 class AmplitudeVibrationService implements Disposable {
   final RecorderController _recorderController;
+  final AudioFileController _audioFileController;
 
   final _vibrationController = BehaviorSubject<bool>.seeded(false);
   final _amplitudeController = BehaviorSubject<double>.seeded(_defaultAmplitudeNormalizationFactor);
 
   StreamSubscription? _amplitudeSubscription;
 
-  AmplitudeVibrationService(this._recorderController);
+  AmplitudeVibrationService(this._recorderController, this._audioFileController);
 
   Stream<bool> get vibrationOnStream => _vibrationController.stream;
   Stream<double> get amplitudeStream => _amplitudeController.stream;
@@ -28,14 +30,27 @@ class AmplitudeVibrationService implements Disposable {
     _amplitudeSubscription = _recorderController.getAmplitudePeriodicStream().listen(
       (futureAmplitude) async {
         final amplitudeData = await futureAmplitude;
-        Vibration.cancel();
-        if (amplitudeData != null) {
-          final normalizedAmplitude = amplitudeData.current + _amplitudeController.value;
-          final constrainedAmplitude = AmplitudeConverter.mapDbFsToVibrationAmplitude(normalizedAmplitude);
-          Vibration.vibrate(amplitude: constrainedAmplitude.toInt());
-        }
+        _vibrateBasedOnAmplitude(amplitudeData?.current);
       },
     );
+  }
+
+  Future<void> vibrateBasedOnTheFile(String filePath) async {
+    _audioFileController.initVibrationStream(filePath);
+    _vibrationController.add(true);
+
+    _amplitudeSubscription = _audioFileController.audioAmplitudeStream.listen(
+      (amplitude) => _vibrateBasedOnAmplitude(amplitude),
+    );
+  }
+
+  void _vibrateBasedOnAmplitude(double? amplitude) {
+    Vibration.cancel();
+    if (amplitude != null) {
+      final normalizedAmplitude = amplitude + _amplitudeController.value;
+      final constrainedAmplitude = AmplitudeConverter.mapDbFsToVibrationAmplitude(normalizedAmplitude);
+      Vibration.vibrate(amplitude: constrainedAmplitude.toInt());
+    }
   }
 
   void setAmplitude(double value) => _amplitudeController.add(value);

@@ -51,7 +51,7 @@ class _PresetVisualizationState extends State<PresetVisualization> {
           value: _vibrateOn,
           onChanged: (value) {
             setState(() => _vibrateOn = value);
-            value ? _startRecordingAndVibrating(context) : _stopRecordingAndVibrating();
+            // value ? _startRecordingAndVibrating(context) : _stopRecordingAndVibrating();
           },
         ),
         ElevatedButton(onPressed: _pickFile, child: Text("Pick a File")),
@@ -80,6 +80,9 @@ class _PresetVisualizationState extends State<PresetVisualization> {
 
     if (result != null) {
       final fileId = await _firebaseStorageService.uploadFile(result);
+
+      _amplitudeVibrationService.vibrateBasedOnTheFile(result.files.first.path!);
+
       setState(() {
         _fileName = result.files.first.name;
         _fileId = fileId;
@@ -88,17 +91,17 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   }
 
   Future<void> _startRecordingAndVibrating(BuildContext context) async {
-    if (await _recorderController.hasPermission()) {
-      _recorderController.startRecording();
-      _amplitudeVibrationService.setAmplitude(45);
-      _amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone();
-      return;
-    }
-    if (context.mounted) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(title: Text('No permissions')),
-      );
-    }
+    //   if (await _recorderController.hasPermission()) {
+    //     _recorderController.startRecording();
+    //     _amplitudeVibrationService.setAmplitude(45);
+    //     _amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone();
+    //     return;
+    //   }
+    //   if (context.mounted) {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => AlertDialog(title: Text('No permissions')),
+    //     );
+    //   }
   }
 }
