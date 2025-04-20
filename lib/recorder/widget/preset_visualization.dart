@@ -2,7 +2,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
-import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 import 'package:vibration_poc/recorder/util/preset.dart';
 import 'package:vibration_poc/storage/serivce/firebase_storage_service.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
@@ -17,13 +16,11 @@ class PresetVisualization extends StatefulWidget {
 
 class _PresetVisualizationState extends State<PresetVisualization> {
   final _firebaseStorageService = get<FirebaseStorageService>();
-  final _recorderController = get<RecorderController>();
   final _amplitudeVibrationService = get<AmplitudeVibrationService>();
 
   String _selectedPreset = presets.first;
   String? _fileName;
   String? _fileId;
-  bool _vibrateOn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,22 +44,10 @@ class _PresetVisualizationState extends State<PresetVisualization> {
     return Row(
       spacing: smallGapSize,
       children: [
-        Switch(
-          value: _vibrateOn,
-          onChanged: (value) {
-            setState(() => _vibrateOn = value);
-            // value ? _startRecordingAndVibrating(context) : _stopRecordingAndVibrating();
-          },
-        ),
         ElevatedButton(onPressed: _pickFile, child: Text("Pick a File")),
         if (_fileName != null) Flexible(child: Text(_fileName!, overflow: TextOverflow.ellipsis)),
       ],
     );
-  }
-
-  void _stopRecordingAndVibrating() {
-    _recorderController.stopRecording();
-    _amplitudeVibrationService.stopVibrating();
   }
 
   Widget _buildVisualization() {
@@ -88,20 +73,5 @@ class _PresetVisualizationState extends State<PresetVisualization> {
         _fileId = fileId;
       });
     }
-  }
-
-  Future<void> _startRecordingAndVibrating(BuildContext context) async {
-    //   if (await _recorderController.hasPermission()) {
-    //     _recorderController.startRecording();
-    //     _amplitudeVibrationService.setAmplitude(45);
-    //     _amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone();
-    //     return;
-    //   }
-    //   if (context.mounted) {
-    //     showDialog(
-    //       context: context,
-    //       builder: (context) => AlertDialog(title: Text('No permissions')),
-    //     );
-    //   }
   }
 }
