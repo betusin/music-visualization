@@ -15,21 +15,19 @@ class SmallHomePage extends StatelessWidget {
         spacing: 10,
         children: [
           ElevatedButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const PairWithPhonePage()),
-            ),
+            onPressed: () => _navigateToPage(context, (context) => PairWithPhonePage()),
             child: const Text('Pair'),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SettingsPage()),
-            ),
+            onPressed: () => _navigateToPage(context, (context) => SettingsPage()),
             child: const Text('Settings'),
           ),
         ],
       ),
     );
+  }
+
+  void _navigateToPage(BuildContext context, WidgetBuilder builder) {
+    Navigator.push(context, MaterialPageRoute(builder: builder));
   }
 }
