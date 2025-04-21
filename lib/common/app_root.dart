@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/home_page.dart';
-import 'package:vibration_poc/small_home_page.dart';
+import 'package:vibration_poc/watch/widget/small_home_page.dart';
 
 class AppRoot extends StatelessWidget {
   const AppRoot({super.key});
