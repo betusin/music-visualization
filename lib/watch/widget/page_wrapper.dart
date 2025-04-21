@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration_poc/common/ui_constants.dart';
 
 class PageWrapper extends StatelessWidget {
   final Widget child;
@@ -8,7 +9,12 @@ class PageWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: child),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(smallGapSize),
+          child: child,
+        ),
+      ),
     );
   }
 }

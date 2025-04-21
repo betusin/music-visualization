@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:vibration_poc/ioc/ioc_container.dart';
-import 'package:vibration_poc/vibration/model/vibration_config.dart';
-import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
+import 'package:vibration_poc/watch/widget/pair_with_phone_page.dart';
+import 'package:vibration_poc/watch/widget/settings_page.dart';
 
 class SmallHomePage extends StatelessWidget {
-  final _amplitudeVibrationService = get<AmplitudeVibrationService>();
-
-  SmallHomePage({super.key});
+  const SmallHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final mockVibration = VibrationConfig(200, [-5, -20, -20]);
-
     return PageWrapper(
-      child: Center(
-        child: ElevatedButton(
-          onPressed: () => _amplitudeVibrationService.vibrateBasedOnVibrationConfig(mockVibration),
-          child: Text('vibrate'),
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 10,
+        children: [
+          ElevatedButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PairWithPhonePage()),
+            ),
+            child: const Text('Pair'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingsPage()),
+            ),
+            child: const Text('Settings'),
+          ),
+        ],
       ),
     );
   }
