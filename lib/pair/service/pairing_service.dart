@@ -1,18 +1,30 @@
 import 'dart:math';
 
+import 'package:database_kit/collection_read/model/abstract_filter_parameter.dart';
 import 'package:firebase_kit/collection_repo/firestore_repository.dart';
+import 'package:master_kit/util/random_id_generator.dart';
 import 'package:vibration_poc/auth/service/auth_service.dart';
-import 'package:vibration_poc/pair/model/pair_data.dart';
+import 'package:vibration_poc/pair/enum/pair_request_status.dart';
+import 'package:vibration_poc/pair/model/pair_request.dart';
 
 class PairingService {
   final AuthService _authService;
-  final FirestoreRepository<PairData> _pairRepository;
+  final FirestoreRepository<PairRequest> _pairRequestsRepository;
 
-  const PairingService(this._authService, this._pairRepository);
+  const PairingService(this._authService, this._pairRequestsRepository);
 
-  Stream<PairData?> get currentPairingData {
+  Stream<List<PairRequest>> get currentPendingRequests {
     final uid = _authService.currentUser?.uid;
-    return uid == null ? Stream.value(null) : _pairRepository.observeDocument(uid);
+    if (uid == null) {
+      return Stream.empty();
+    }
+
+    return _pairRequestsRepository.observeDocs(
+      filters: [
+        FilterParameter(PairRequest.deviceIdKey, isEqualTo: uid),
+        FilterParameter(PairRequest.statusKey, isEqualTo: 'pending'),
+      ],
+    );
   }
 
   Future<void> createPairingDoc() async {
@@ -23,13 +35,16 @@ class PairingService {
       return;
     }
 
-    final uid = currentUser.uid;
-    final docExists = await _pairRepository.documentExists(uid);
+    // TODO(betka): delete all pending requests from this user?
 
-    if (!docExists) {
-      final pairData = PairData(id: uid, pairCode: _generateSixDigitCode(), deviceId: '', createdAt: DateTime.now());
-      _pairRepository.createOrReplace(pairData, uid);
-    }
+    final id = generateRandomString();
+    final pairRequest =
+        PairRequest(id: id, code: _generateSixDigitCode(), deviceId: currentUser.uid, createdAt: DateTime.now());
+    _pairRequestsRepository.createOrReplace(pairRequest, id);
+  }
+
+  void updatePairRequestStatus(String id, PairRequestStatus status) {
+    _pairRequestsRepository.mergeIn(id, {PairRequest.statusKey: status});
   }
 
   int _generateSixDigitCode() => 100000 + Random().nextInt(900000);

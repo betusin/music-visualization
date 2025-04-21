@@ -1,3 +1,3 @@
 class CollectionNames {
-  static String pairDataCollection = 'pairData';
+  static String pairRequestsCollection = 'pair_requests';
 }
