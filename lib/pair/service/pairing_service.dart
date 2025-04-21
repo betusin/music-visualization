@@ -22,7 +22,7 @@ class PairingService {
     return _pairRequestsRepository.observeDocs(
       filters: [
         FilterParameter(PairRequest.deviceIdKey, isEqualTo: uid),
-        FilterParameter(PairRequest.statusKey, isEqualTo: 'pending'),
+        FilterParameter(PairRequest.statusKey, isEqualTo: PairRequestStatus.pending.value),
       ],
     );
   }
@@ -44,7 +44,7 @@ class PairingService {
   }
 
   void updatePairRequestStatus(String id, PairRequestStatus status) {
-    _pairRequestsRepository.mergeIn(id, {PairRequest.statusKey: status});
+    _pairRequestsRepository.mergeIn(id, {PairRequest.statusKey: status.value});
   }
 
   int _generateSixDigitCode() => 100000 + Random().nextInt(900000);
