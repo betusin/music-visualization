@@ -8,10 +8,10 @@ part of 'pair_data.dart';
 
 PairData _$PairDataFromJson(Map<String, dynamic> json) => PairData(
       id: json['id'] as String,
-      pairCode: json['pairCode'] as String,
+      pairCode: (json['pairCode'] as num).toInt(),
       deviceId: json['deviceId'] as String,
       watchId: json['watchId'] as String?,
-      confirmed: json['confirmed'] as bool,
+      confirmed: json['confirmed'] as bool? ?? false,
       createdAt:
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
     );

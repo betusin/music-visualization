@@ -9,7 +9,7 @@ part 'pair_data.g.dart';
 class PairData implements IdentifiableSerializable {
   @override
   final String id;
-  final String pairCode; // 6-digit pairing code
+  final int pairCode; // 6-digit pairing code
   final String deviceId; // ID of the mobile device
   final String? watchId; // Optional, filled when watch pairs
   final bool confirmed; // Whether mobile confirmed pairing
@@ -21,7 +21,7 @@ class PairData implements IdentifiableSerializable {
     required this.pairCode,
     required this.deviceId,
     this.watchId,
-    required this.confirmed,
+    this.confirmed = false,
     required this.createdAt,
   });
 

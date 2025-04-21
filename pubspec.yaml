@@ -40,6 +40,10 @@ dependencies:
     path: ../p5dart
   ui_kit:
     path: ../ts_kit/ui_kit
+  master_kit:
+    path: ../ts_kit/master_kit
+  firebase_kit:
+    path: ../ts_kit/firebase_kit
   record: ^5.2.1
   get_it: ^8.0.3
   rxdart: ^0.27.7
