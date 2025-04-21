@@ -4,6 +4,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:vibration_poc/auth/service/auth_service.dart';
 import 'package:vibration_poc/common/app_root.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
@@ -24,6 +25,8 @@ void main() async {
   );
 
   IocContainer.setup();
+
+  get<AuthService>().signInAnonymously();
 
   runApp(const AppRoot());
 }
