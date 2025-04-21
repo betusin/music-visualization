@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:vibration/vibration.dart';
 import 'package:vibration_poc/audio/service/audio_file_controller.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
+import 'package:vibration_poc/vibration/model/vibration_config.dart';
 import 'package:vibration_poc/vibration/util/amplitude_converter.dart';
 
 // TODO(betka): the normalization factor was just guessed
@@ -51,6 +52,17 @@ class AmplitudeVibrationService implements Disposable {
       final constrainedAmplitude = AmplitudeConverter.mapDbFsToVibrationAmplitude(normalizedAmplitude);
       Vibration.vibrate(amplitude: constrainedAmplitude.toInt());
     }
+  }
+
+  Future<void> vibrateBasedOnVibrationConfig(VibrationConfig vibrationConfig) async {
+    _vibrationController.add(true);
+
+    for (final amplitude in vibrationConfig.amplitudes) {
+      _vibrateBasedOnAmplitude(amplitude);
+      await Future.delayed(Duration(milliseconds: vibrationConfig.beat));
+    }
+
+    stopVibrating();
   }
 
   void setAmplitude(double value) => _amplitudeController.add(value);

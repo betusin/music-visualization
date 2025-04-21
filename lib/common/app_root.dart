@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/home_page.dart';
+import 'package:vibration_poc/small_home_page.dart';
 
 class AppRoot extends StatelessWidget {
   const AppRoot({super.key});
@@ -12,7 +13,14 @@ class AppRoot extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: _isWatch(context) ? SmallHomePage() : HomePage(),
     );
+  }
+
+  bool _isWatch(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    // TODO(betka): use this instead of guessing min height? (watchShape is part of wear package and the build fails with that)
+    // final watch = WatchShape.of(context);
+    return size.height < 210;
   }
 }
