@@ -31,6 +31,17 @@ class PairingService {
     );
   }
 
+  Stream<List<PairLink>> get getPairLinksPerCurrentWatch {
+    final uid = _authService.currentUser?.uid;
+    if (uid == null) {
+      return Stream.empty();
+    }
+
+    return _pairLinksRepository.observeDocs(
+      filters: [FilterParameter(PairLink.watchIdKey, isEqualTo: uid)],
+    );
+  }
+
   Future<void> createPairingDoc() async {
     final currentUser = _authService.currentUser;
 

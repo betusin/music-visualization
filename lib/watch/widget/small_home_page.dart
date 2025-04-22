@@ -9,20 +9,21 @@ class SmallHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageWrapper(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: 10,
-        children: [
-          ElevatedButton(
-            onPressed: () => _navigateToPage(context, (context) => PairWithPhonePage()),
-            child: const Text('Pair'),
-          ),
-          ElevatedButton(
-            onPressed: () => _navigateToPage(context, (context) => SettingsPage()),
-            child: const Text('Settings'),
-          ),
-        ],
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 10,
+          children: [
+            ElevatedButton(
+              onPressed: () => _navigateToPage(context, (context) => PairWithPhonePage()),
+              child: const Text('Pair'),
+            ),
+            ElevatedButton(
+              onPressed: () => _navigateToPage(context, (context) => SettingsPage()),
+              child: const Text('Settings'),
+            ),
+          ],
+        ),
       ),
     );
   }
