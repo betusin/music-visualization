@@ -19,10 +19,12 @@ class PairingService {
       return Stream.empty();
     }
 
-    // TODO(betka): maybe also filter based on the date?
+    final yesterday = DateTime.now().subtract(Duration(days: 1));
+
     return _pairRequestsRepository.observeDocs(
       filters: [
         FilterParameter(PairRequest.deviceIdKey, isEqualTo: uid),
+        FilterParameter(PairRequest.timestampKey, isGreaterThanOrEqualTo: yesterday),
       ],
     );
   }

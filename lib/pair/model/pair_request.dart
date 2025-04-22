@@ -11,6 +11,7 @@ class PairRequest implements IdentifiableSerializable {
   static const statusKey = 'status';
   static const deviceIdKey = 'deviceId';
   static const codeKey = 'code';
+  static const timestampKey = 'createdAt';
 
   @override
   final String id;
@@ -21,6 +22,7 @@ class PairRequest implements IdentifiableSerializable {
   @JsonKey(name: statusKey)
   final PairRequestStatus status;
   @TimestampConverter()
+  @JsonKey(name: timestampKey)
   final DateTime createdAt;
 
   const PairRequest({
