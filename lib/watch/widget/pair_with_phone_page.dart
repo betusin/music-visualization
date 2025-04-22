@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/stream/widget/handling_stream_builder.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
+import 'package:vibration_poc/pair/enum/pair_request_status.dart';
 import 'package:vibration_poc/pair/service/pairing_service.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
@@ -29,7 +30,12 @@ class _PairWithPhonePageState extends State<PairWithPhonePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Paired with ${pairLink.deviceId}'),
-                  ElevatedButton(onPressed: () => _pairingService.unpairDevices(pairLink.id), child: Text('Unpair')),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() => _sentCode = null);
+                        _pairingService.unpairDevices(pairLink.id);
+                      },
+                      child: Text('Unpair')),
                 ],
               );
             }
@@ -44,7 +50,25 @@ class _PairWithPhonePageState extends State<PairWithPhonePage> {
   Widget _buildRequestStatus() {
     return HandlingStreamBuilder(
       stream: _pairingService.requestsByCodeStream(_sentCode!),
-      builder: (context, requests) => Text('status: ${requests.firstOrNull?.status}'),
+      builder: (context, requests) {
+        if (requests.isEmpty) {
+          // this should never happen
+          return Text('No requests found');
+        }
+
+        final request = requests.first;
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // TODO(betka): display the status nicely
+            Text('status: ${request.status}'),
+            ElevatedButton(
+              onPressed: () => _pairingService.updatePairRequestStatus(request.id, PairRequestStatus.pending),
+              child: Text('Unpair'),
+            ),
+          ],
+        );
+      },
     );
   }
 
