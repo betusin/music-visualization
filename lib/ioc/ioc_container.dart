@@ -4,6 +4,7 @@ import 'package:vibration_poc/audio/service/audio_file_controller.dart';
 import 'package:vibration_poc/auth/service/auth_service.dart';
 import 'package:vibration_poc/background_service/service/background_service_handler.dart';
 import 'package:vibration_poc/common/collection_names.dart';
+import 'package:vibration_poc/pair/model/pair_link.dart';
 import 'package:vibration_poc/pair/model/pair_request.dart';
 import 'package:vibration_poc/pair/service/pairing_service.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
@@ -20,11 +21,16 @@ class IocContainer {
       CollectionNames.pairRequestsCollection,
       (json) => PairRequest.fromJson(json),
     ));
+    get.registerSingleton(FirestoreRepository<PairLink>(
+      CollectionNames.pairLinksCollection,
+      (json) => PairLink.fromJson(json),
+    ));
 
     get.registerSingleton(AuthService());
     get.registerSingleton(PairingService(
       get<AuthService>(),
       get<FirestoreRepository<PairRequest>>(),
+      get<FirestoreRepository<PairLink>>(),
     ));
 
     get.registerSingleton(RecorderController());

@@ -5,13 +5,15 @@ import 'package:firebase_kit/collection_repo/firestore_repository.dart';
 import 'package:master_kit/util/random_id_generator.dart';
 import 'package:vibration_poc/auth/service/auth_service.dart';
 import 'package:vibration_poc/pair/enum/pair_request_status.dart';
+import 'package:vibration_poc/pair/model/pair_link.dart';
 import 'package:vibration_poc/pair/model/pair_request.dart';
 
 class PairingService {
   final AuthService _authService;
   final FirestoreRepository<PairRequest> _pairRequestsRepository;
+  final FirestoreRepository<PairLink> _pairLinksRepository;
 
-  const PairingService(this._authService, this._pairRequestsRepository);
+  const PairingService(this._authService, this._pairRequestsRepository, this._pairLinksRepository);
 
   Stream<List<PairRequest>> get currentRequests {
     final uid = _authService.currentUser?.uid;
@@ -47,6 +49,33 @@ class PairingService {
 
   void updatePairRequestStatus(String id, PairRequestStatus status) {
     _pairRequestsRepository.mergeIn(id, {PairRequest.statusKey: status.value});
+  }
+
+  void updatePairRequestToWait(String id) {
+    final currentUser = _authService.currentUser;
+
+    if (currentUser == null) {
+      // TODO(betka): better error handling?
+      return;
+    }
+
+    _pairRequestsRepository.mergeIn(id, {
+      PairRequest.statusKey: PairRequestStatus.waitingForConfirmation.value,
+      PairRequest.watchIdKey: currentUser.uid,
+    });
+  }
+
+  void pairDevices(String watchId) {
+    final currentUser = _authService.currentUser;
+    if (currentUser == null) {
+      // TODO(betka): better error handling?
+      return;
+    }
+
+    final id = generateRandomString();
+
+    final link = PairLink(id: id, deviceId: currentUser.uid, watchId: watchId, createdAt: DateTime.now());
+    _pairLinksRepository.createOrReplace(link, id);
   }
 
   Future<PairRequest?> getPairRequestByCode(int code) async {

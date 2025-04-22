@@ -72,13 +72,14 @@ class _PairPageState extends State<PairPage> {
         spacing: smallGapSize,
         children: [
           Text('code: ${pairRequest.code}'),
-          if (pairRequest.status == PairRequestStatus.waitingForConfirmation) _buildAcceptRejectButtons(pairRequest.id),
+          if (pairRequest.status == PairRequestStatus.waitingForConfirmation) _buildAcceptRejectButtons(pairRequest),
         ],
       ),
     );
   }
 
-  Widget _buildAcceptRejectButtons(String requestId) {
+  Widget _buildAcceptRejectButtons(PairRequest pairRequest) {
+    final requestId = pairRequest.id;
     return Row(
       spacing: smallGapSize,
       children: [
@@ -88,7 +89,11 @@ class _PairPageState extends State<PairPage> {
           child: Text('Reject'),
         ),
         ElevatedButton(
-          onPressed: () => _pairingService.updatePairRequestStatus(requestId, PairRequestStatus.accepted),
+          onPressed: () {
+            _pairingService.updatePairRequestStatus(requestId, PairRequestStatus.accepted);
+            // TODO(betka): ! could be dangerous
+            _pairingService.pairDevices(pairRequest.watchId!);
+          },
           child: Text('Accept'),
         ),
       ],

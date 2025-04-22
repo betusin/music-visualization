@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
-import 'package:vibration_poc/pair/enum/pair_request_status.dart';
 import 'package:vibration_poc/pair/service/pairing_service.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
@@ -37,7 +36,7 @@ class _PairWithPhonePageState extends State<PairWithPhonePage> {
               return;
             }
 
-            _pairingService.updatePairRequestStatus(pairRequest.id, PairRequestStatus.waitingForConfirmation);
+            _pairingService.updatePairRequestToWait(pairRequest.id);
             _textEditingController.clear();
           },
         ),
