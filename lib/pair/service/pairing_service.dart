@@ -13,16 +13,16 @@ class PairingService {
 
   const PairingService(this._authService, this._pairRequestsRepository);
 
-  Stream<List<PairRequest>> get currentPendingRequests {
+  Stream<List<PairRequest>> get currentRequests {
     final uid = _authService.currentUser?.uid;
     if (uid == null) {
       return Stream.empty();
     }
 
+    // TODO(betka): maybe also filter based on the date?
     return _pairRequestsRepository.observeDocs(
       filters: [
         FilterParameter(PairRequest.deviceIdKey, isEqualTo: uid),
-        FilterParameter(PairRequest.statusKey, isEqualTo: PairRequestStatus.pending.value),
       ],
     );
   }
@@ -45,6 +45,13 @@ class PairingService {
 
   void updatePairRequestStatus(String id, PairRequestStatus status) {
     _pairRequestsRepository.mergeIn(id, {PairRequest.statusKey: status.value});
+  }
+
+  Future<PairRequest?> getPairRequestByCode(int code) async {
+    final docs = await _pairRequestsRepository.getDocuments(
+      filters: [FilterParameter(PairRequest.codeKey, isEqualTo: code)],
+    );
+    return docs.firstOrNull;
   }
 
   int _generateSixDigitCode() => 100000 + Random().nextInt(900000);

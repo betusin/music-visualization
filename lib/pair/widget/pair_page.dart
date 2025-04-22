@@ -20,16 +20,47 @@ class _PairPageState extends State<PairPage> {
   @override
   Widget build(BuildContext context) {
     return HandlingStreamBuilder(
-      stream: _pairingService.currentPendingRequests,
+      stream: _pairingService.currentRequests,
       builder: (context, pairRequests) {
         if (pairRequests.isEmpty) {
           return Text('No requests waiting for acceptance');
         }
 
+        final code = pairRequests.where((element) => element.status == PairRequestStatus.pending).firstOrNull?.code;
+
         return Column(
-          children: pairRequests.mapToList((pairRequest) => _buildRequest(pairRequest)),
+          children: [
+            Center(child: _buildCodeCard(context, code)),
+            Column(
+              children: pairRequests
+                  .where((pairRequest) => pairRequest.status == PairRequestStatus.waitingForConfirmation)
+                  .mapToList((pairRequest) => _buildRequest(pairRequest)),
+            ),
+          ],
         );
       },
+    );
+  }
+
+  Card _buildCodeCard(BuildContext context, int? code) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: cardCircularRadius),
+      color: colorScheme.primaryContainer,
+      shadowColor: Colors.grey.withOpacity(0.2),
+      child: Padding(
+        padding: const EdgeInsets.all(standardGapSize),
+        child: Text(
+          '$code',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 4,
+            color: colorScheme.onPrimaryContainer,
+          ),
+        ),
+      ),
     );
   }
 
@@ -41,8 +72,7 @@ class _PairPageState extends State<PairPage> {
         spacing: smallGapSize,
         children: [
           Text('code: ${pairRequest.code}'),
-          // if (pairData.status == PairRequestStatus.waitingForConfirmation)
-          _buildAcceptRejectButtons(pairRequest.id),
+          if (pairRequest.status == PairRequestStatus.waitingForConfirmation) _buildAcceptRejectButtons(pairRequest.id),
         ],
       ),
     );

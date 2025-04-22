@@ -10,9 +10,11 @@ part 'pair_request.g.dart';
 class PairRequest implements IdentifiableSerializable {
   static const statusKey = 'status';
   static const deviceIdKey = 'deviceId';
+  static const codeKey = 'code';
 
   @override
   final String id;
+  @JsonKey(name: codeKey)
   final int code; // 6-digit pairing code
   @JsonKey(name: deviceIdKey)
   final String deviceId; // uid of the user logged in on mobile device
