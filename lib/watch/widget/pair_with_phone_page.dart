@@ -14,19 +14,37 @@ class PairWithPhonePage extends StatefulWidget {
 class _PairWithPhonePageState extends State<PairWithPhonePage> {
   final _pairingService = get<PairingService>();
   final _textEditingController = TextEditingController();
+  int? _sentCode;
 
   @override
   Widget build(BuildContext context) {
     return PageWrapper(
-      child: HandlingStreamBuilder(
-        stream: _pairingService.getPairLinksPerCurrentWatch,
-        builder: (context, pairLinks) {
-          return Center(
-            // TODO(betka): could also display the status of waiting request
-            child: pairLinks.isEmpty ? _buildTextField() : Text('Paired with ${pairLinks.firstOrNull?.deviceId}'),
-          );
-        },
+      child: Center(
+        child: HandlingStreamBuilder(
+          stream: _pairingService.getPairLinksPerCurrentWatch,
+          builder: (context, pairLinks) {
+            if (pairLinks.isNotEmpty) {
+              final pairLink = pairLinks.first;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Paired with ${pairLink.deviceId}'),
+                  ElevatedButton(onPressed: () => _pairingService.unpairDevices(pairLink.id), child: Text('Unpair')),
+                ],
+              );
+            }
+
+            return _sentCode == null ? _buildTextField() : _buildRequestStatus();
+          },
+        ),
       ),
+    );
+  }
+
+  Widget _buildRequestStatus() {
+    return HandlingStreamBuilder(
+      stream: _pairingService.requestsByCodeStream(_sentCode!),
+      builder: (context, requests) => Text('status: ${requests.firstOrNull?.status}'),
     );
   }
 
@@ -52,6 +70,7 @@ class _PairWithPhonePageState extends State<PairWithPhonePage> {
 
         _pairingService.updatePairRequestToWait(pairRequest.id);
         _textEditingController.clear();
+        setState(() => _sentCode = code);
       },
     );
   }

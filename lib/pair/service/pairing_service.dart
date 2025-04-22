@@ -31,6 +31,10 @@ class PairingService {
     );
   }
 
+  Stream<List<PairRequest>> requestsByCodeStream(int code) {
+    return _pairRequestsRepository.observeDocs(filters: [FilterParameter(PairRequest.codeKey, isEqualTo: code)]);
+  }
+
   Stream<List<PairLink>> get getPairLinksPerCurrentWatch {
     final uid = _authService.currentUser?.uid;
     if (uid == null) {
@@ -88,6 +92,8 @@ class PairingService {
     final link = PairLink(id: id, deviceId: currentUser.uid, watchId: watchId, createdAt: DateTime.now());
     _pairLinksRepository.createOrReplace(link, id);
   }
+
+  void unpairDevices(String pairLinkId) => _pairLinksRepository.delete(pairLinkId);
 
   Future<PairRequest?> getPairRequestByCode(int code) async {
     final docs = await _pairRequestsRepository.getDocuments(

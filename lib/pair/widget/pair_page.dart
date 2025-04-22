@@ -27,8 +27,12 @@ class _PairPageState extends State<PairPage> {
         }
 
         final code = pairRequests.where((element) => element.status == PairRequestStatus.pending).firstOrNull?.code;
+        if (code == null) {
+          _pairingService.createPairingDoc();
+        }
 
         return Column(
+          spacing: smallGapSize,
           children: [
             Center(child: _buildCodeCard(context, code)),
             Column(
@@ -42,7 +46,7 @@ class _PairPageState extends State<PairPage> {
     );
   }
 
-  Card _buildCodeCard(BuildContext context, int? code) {
+  Widget _buildCodeCard(BuildContext context, int? code) {
     final colorScheme = Theme.of(context).colorScheme;
     return Card(
       elevation: 2,
