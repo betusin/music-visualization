@@ -9,6 +9,7 @@ import 'package:vibration_poc/pair/model/pair_request.dart';
 import 'package:vibration_poc/pair/service/pairing_service.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 import 'package:vibration_poc/storage/serivce/firebase_storage_service.dart';
+import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 
 final get = GetIt.instance;
@@ -24,6 +25,10 @@ class IocContainer {
     get.registerSingleton(FirestoreRepository<PairLink>(
       CollectionNames.pairLinksCollection,
       (json) => PairLink.fromJson(json),
+    ));
+    get.registerSingleton(FirestoreRepository<VibrationMetadata>(
+      CollectionNames.vibrationMetadataCollection,
+      (json) => VibrationMetadata.fromJson(json),
     ));
 
     get.registerSingleton(AuthService());

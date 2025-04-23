@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:master_kit/util/random_id_generator.dart';
 import 'package:vibration_poc/auth/service/auth_service.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
-import 'package:vibration_poc/vibration/model/vibration_config.dart';
+import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
@@ -13,7 +14,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mockVibration = VibrationConfig(200, [-5, -20, -20]);
+    final mockVibration = VibrationMetadata(generateRandomString(), 200, [-5, -20, -20]);
 
     return PageWrapper(
       child: Center(
