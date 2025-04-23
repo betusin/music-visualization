@@ -32,7 +32,7 @@ class _PairPageState extends State<PairPage> {
         }
 
         return Column(
-          spacing: smallGapSize,
+          spacing: standardGapSize,
           children: [
             Center(child: _buildCodeCard(context, code)),
             Column(

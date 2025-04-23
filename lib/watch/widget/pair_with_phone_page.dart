@@ -60,8 +60,7 @@ class _PairWithPhonePageState extends State<PairWithPhonePage> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // TODO(betka): display the status nicely
-            Text('status: ${request.status}'),
+            _buildStatusInfo(request.status),
             ElevatedButton(
               onPressed: () => _pairingService.updatePairRequestStatus(request.id, PairRequestStatus.pending),
               child: Text('Unpair'),
@@ -69,6 +68,23 @@ class _PairWithPhonePageState extends State<PairWithPhonePage> {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildStatusInfo(PairRequestStatus status) {
+    final (icon, label) = switch (status) {
+      PairRequestStatus.pending => (Icons.hourglass_empty, 'Pending...'),
+      PairRequestStatus.waitingForConfirmation => (Icons.hourglass_bottom, 'Waiting...'),
+      PairRequestStatus.accepted => (Icons.check_circle_outline_outlined, 'Accepted'),
+      PairRequestStatus.rejected => (Icons.cancel_outlined, 'Rejected'),
+    };
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, color: Theme.of(context).colorScheme.primary),
+        Text(label),
+      ],
     );
   }
 
