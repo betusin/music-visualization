@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vibration_poc/vibration/widget/vibration_observer.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+class VibrationPage extends StatelessWidget {
+  const VibrationPage({super.key});
 
   @override
   Widget build(BuildContext context) {

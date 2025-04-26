@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 import 'package:vibration_poc/watch/widget/pair_with_phone_page.dart';
-import 'package:vibration_poc/watch/widget/settings_page.dart';
+import 'package:vibration_poc/watch/widget/vibration_page.dart';
 
 class SmallHomePage extends StatelessWidget {
   const SmallHomePage({super.key});
@@ -19,7 +19,7 @@ class SmallHomePage extends StatelessWidget {
               child: const Text('Pair'),
             ),
             ElevatedButton(
-              onPressed: () => _navigateToPage(context, (context) => SettingsPage()),
+              onPressed: () => _navigateToPage(context, (context) => VibrationPage()),
               child: const Text('Settings'),
             ),
           ],
