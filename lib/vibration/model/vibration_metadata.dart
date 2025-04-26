@@ -11,7 +11,7 @@ class VibrationMetadata implements IdentifiableSerializable {
 
   final VibrationStatus vibrationStatus;
 
-  /// beat in milliseconds, define delay between amplitudes
+  /// beat in milliseconds, defines delay between amplitudes
   final int beat;
 
   /// amplitudes of vibration in dbFs
