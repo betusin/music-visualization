@@ -24,6 +24,13 @@ class VibrationMetadata implements IdentifiableSerializable {
     this.vibrationStatus = VibrationStatus.playing,
   });
 
+  const VibrationMetadata.fromBpm({
+    required this.id,
+    required int bpm,
+    required this.amplitudes,
+    this.vibrationStatus = VibrationStatus.playing,
+  }) : beat = 60000 ~/ bpm;
+
   @override
   Map<String, dynamic> toJson() => _$VibrationMetadataToJson(this);
 
