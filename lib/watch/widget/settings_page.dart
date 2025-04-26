@@ -14,7 +14,11 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mockVibration = VibrationMetadata(generateRandomString(), 200, [-5, -20, -20]);
+    final mockVibration = VibrationMetadata(
+      id: generateRandomString(),
+      beat: 110,
+      amplitudes: [-5, -20, -20],
+    );
 
     return PageWrapper(
       child: Center(
