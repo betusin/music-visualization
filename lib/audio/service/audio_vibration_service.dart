@@ -86,7 +86,11 @@ class AudioVibrationService {
       amplitudes.add(amplitude);
     }
 
-    return VibrationMetadata(generateRandomString(), delay.inMilliseconds, amplitudes);
+    return VibrationMetadata(
+      id: generateRandomString(),
+      beat: delay.inMilliseconds,
+      amplitudes: amplitudes,
+    );
   }
 
   double _getAmplitude(Uint8List chunk) {
