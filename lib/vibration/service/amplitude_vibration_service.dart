@@ -6,6 +6,7 @@ import 'package:vibration/vibration.dart';
 import 'package:vibration_poc/audio/service/audio_file_controller.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
+import 'package:vibration_poc/vibration/model/vibration_status_enum.dart';
 import 'package:vibration_poc/vibration/util/amplitude_converter.dart';
 
 // TODO(betka): the normalization factor was just guessed
@@ -54,12 +55,14 @@ class AmplitudeVibrationService implements Disposable {
     }
   }
 
-  Future<void> vibrateBasedOnVibrationConfig(VibrationMetadata vibrationMetadata) async {
+  Future<void> vibrateBasedOnVibrationMetadata(VibrationMetadata vibrationMetadata) async {
     _vibrationController.add(true);
 
     for (final amplitude in vibrationMetadata.amplitudes) {
-      _vibrateBasedOnAmplitude(amplitude);
-      await Future.delayed(Duration(milliseconds: vibrationMetadata.beat));
+      if (vibrationMetadata.vibrationStatus != VibrationStatus.playing) {
+        _vibrateBasedOnAmplitude(amplitude);
+        await Future.delayed(Duration(milliseconds: vibrationMetadata.beat));
+      }
     }
 
     stopVibrating();
