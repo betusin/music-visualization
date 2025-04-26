@@ -73,8 +73,6 @@ class _PresetVisualizationState extends State<PresetVisualization> {
     if (result != null) {
       final fileId = await _firebaseStorageService.uploadFile(result);
 
-      _amplitudeVibrationService.vibrateBasedOnTheFile(result.files.first.path!);
-
       setState(() {
         _fileName = result.files.first.name;
         _fileId = fileId;
