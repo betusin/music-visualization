@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/stream/widget/handling_stream_builder.dart';
+import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/pair/enum/pair_request_status.dart';
 import 'package:vibration_poc/pair/service/pairing_service.dart';
@@ -28,14 +29,16 @@ class _PairWithPhonePageState extends State<PairWithPhonePage> {
               final pairLink = pairLinks.first;
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                spacing: smallGapSize,
                 children: [
                   Text('Paired with ${pairLink.deviceName}'),
                   ElevatedButton(
-                      onPressed: () {
-                        setState(() => _sentCode = null);
-                        _pairingService.unpairDevices(pairLink.id);
-                      },
-                      child: Text('Unpair')),
+                    onPressed: () {
+                      setState(() => _sentCode = null);
+                      _pairingService.unpairDevices(pairLink.id);
+                    },
+                    child: Text('Unpair'),
+                  ),
                 ],
               );
             }
