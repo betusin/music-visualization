@@ -12,8 +12,9 @@ class VibrationObserver extends StatelessWidget {
   final _vibrationMetadataRepo = get<FirestoreRepository<VibrationMetadata>>();
 
   final String deviceId;
+  final Axis direction;
 
-  VibrationObserver({super.key, required this.deviceId});
+  VibrationObserver({super.key, required this.deviceId, this.direction = Axis.vertical});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,31 @@ class VibrationObserver extends StatelessWidget {
         }
 
         _amplitudeVibrationService.vibrateBasedOnVibrationMetadata(vibrationMetadata);
-        return _buildVibrationStatus(vibrationMetadata.vibrationStatus);
+        return Flex(
+          mainAxisAlignment: MainAxisAlignment.center,
+          direction: direction,
+          spacing: smallGapSize,
+          children: [
+            _buildStopVibrateButton(),
+            _buildVibrationStatus(vibrationMetadata.vibrationStatus),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildStopVibrateButton() {
+    return HandlingStreamBuilder(
+      stream: _amplitudeVibrationService.vibrationOnStream,
+      builder: (context, vibrationOn) {
+        if (!vibrationOn) {
+          return SizedBox();
+        }
+        return ElevatedButton.icon(
+          onPressed: () => _amplitudeVibrationService.stopVibrating(),
+          label: Text('Stop'),
+          icon: Icon(Icons.stop_circle),
+        );
       },
     );
   }

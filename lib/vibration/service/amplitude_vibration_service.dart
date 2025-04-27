@@ -59,7 +59,7 @@ class AmplitudeVibrationService implements Disposable {
     _vibrationController.add(true);
 
     for (final amplitude in vibrationMetadata.amplitudes) {
-      if (vibrationMetadata.vibrationStatus == VibrationStatus.playing) {
+      if (vibrationMetadata.vibrationStatus == VibrationStatus.playing && _vibrationController.value) {
         _vibrateBasedOnAmplitude(amplitude);
         await Future.delayed(Duration(milliseconds: vibrationMetadata.beat));
       } else {

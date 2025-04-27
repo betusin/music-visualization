@@ -37,7 +37,11 @@ class _PresetVisualizationState extends State<PresetVisualization> {
           initialSelection: presets.first,
           onSelected: (value) => value != null ? setState(() => _selectedPreset = value) : null,
         ),
-        if (uid != null) VibrationObserver(deviceId: uid),
+        if (uid != null)
+          VibrationObserver(
+            deviceId: uid,
+            direction: Axis.horizontal,
+          ),
         _buildVisualization(uid),
       ],
     );
