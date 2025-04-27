@@ -48,12 +48,15 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   }
 
   Widget _buildFilePicker() {
-    return Row(
-      spacing: smallGapSize,
-      children: [
-        ElevatedButton(onPressed: _pickFile, child: Text("Pick a File")),
-        if (_fileName != null) Flexible(child: Text(_fileName!, overflow: TextOverflow.ellipsis)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: smallGapSize),
+      child: Row(
+        spacing: smallGapSize,
+        children: [
+          ElevatedButton(onPressed: _pickFile, child: Text("Pick a File")),
+          if (_fileName != null) Flexible(child: Text(_fileName!, overflow: TextOverflow.ellipsis)),
+        ],
+      ),
     );
   }
 
