@@ -29,7 +29,7 @@ class _PairWithPhonePageState extends State<PairWithPhonePage> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Paired with ${pairLink.deviceId}'),
+                  Text('Paired with ${pairLink.deviceName}'),
                   ElevatedButton(
                       onPressed: () {
                         setState(() => _sentCode = null);

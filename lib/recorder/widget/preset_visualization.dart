@@ -5,7 +5,6 @@ import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/util/preset.dart';
 import 'package:vibration_poc/storage/serivce/firebase_storage_service.dart';
-import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 import 'package:vibration_poc/vibration/widget/vibration_observer.dart';
 import 'package:vibration_poc/web_view/widget/web_page_display.dart';
 
@@ -18,7 +17,6 @@ class PresetVisualization extends StatefulWidget {
 
 class _PresetVisualizationState extends State<PresetVisualization> {
   final _firebaseStorageService = get<FirebaseStorageService>();
-  final _amplitudeVibrationService = get<AmplitudeVibrationService>();
   final _authService = get<AuthService>();
 
   String _selectedPreset = presets.first;

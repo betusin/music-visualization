@@ -9,6 +9,7 @@ part of 'pair_link.dart';
 PairLink _$PairLinkFromJson(Map<String, dynamic> json) => PairLink(
       id: json['id'] as String,
       deviceId: json['deviceId'] as String,
+      deviceName: json['deviceName'] as String,
       watchId: json['watchId'] as String,
       createdAt:
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
@@ -17,6 +18,7 @@ PairLink _$PairLinkFromJson(Map<String, dynamic> json) => PairLink(
 Map<String, dynamic> _$PairLinkToJson(PairLink instance) => <String, dynamic>{
       'id': instance.id,
       'deviceId': instance.deviceId,
+      'deviceName': instance.deviceName,
       'watchId': instance.watchId,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

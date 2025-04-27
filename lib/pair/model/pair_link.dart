@@ -16,6 +16,7 @@ class PairLink implements IdentifiableSerializable {
   final String id;
   @JsonKey(name: deviceIdKey)
   final String deviceId; // uid of the user logged in on mobile device
+  final String deviceName; // name of mobile model
   @JsonKey(name: watchIdKey)
   final String watchId; // uid of the user logged in on watch device
   @TimestampConverter()
@@ -25,6 +26,7 @@ class PairLink implements IdentifiableSerializable {
   const PairLink({
     required this.id,
     required this.deviceId,
+    required this.deviceName,
     required this.watchId,
     required this.createdAt,
   });

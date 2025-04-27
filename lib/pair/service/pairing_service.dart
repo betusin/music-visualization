@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:database_kit/collection_read/model/abstract_filter_parameter.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_kit/collection_repo/firestore_repository.dart';
 import 'package:master_kit/util/random_id_generator.dart';
 import 'package:vibration_poc/auth/service/auth_service.dart';
@@ -80,7 +82,7 @@ class PairingService {
     });
   }
 
-  void pairDevices(String watchId) {
+  Future<void> pairDevices(String watchId) async {
     final currentUser = _authService.currentUser;
     if (currentUser == null) {
       // TODO(betka): better error handling?
@@ -89,8 +91,31 @@ class PairingService {
 
     final id = generateRandomString();
 
-    final link = PairLink(id: id, deviceId: currentUser.uid, watchId: watchId, createdAt: DateTime.now());
+    final deviceName = await _getDeviceName();
+
+    final link = PairLink(
+      id: id,
+      deviceId: currentUser.uid,
+      deviceName: deviceName,
+      watchId: watchId,
+      createdAt: DateTime.now(),
+    );
     _pairLinksRepository.createOrReplace(link, id);
+  }
+
+  // TODO(betka): could be method in separate service
+  Future<String> _getDeviceName() async {
+    final deviceInfoPlugin = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      final deviceInfo = await deviceInfoPlugin.androidInfo;
+      return deviceInfo.model;
+    }
+    if (Platform.isIOS) {
+      final deviceInfo = await deviceInfoPlugin.iosInfo;
+      return deviceInfo.model;
+    }
+
+    throw UnsupportedError('Not supported on other than iOS or Android');
   }
 
   void unpairDevices(String pairLinkId) => _pairLinksRepository.delete(pairLinkId);
