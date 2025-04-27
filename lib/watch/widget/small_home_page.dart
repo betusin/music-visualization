@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 import 'package:vibration_poc/watch/widget/pair_with_phone_page.dart';
 import 'package:vibration_poc/watch/widget/vibration_page.dart';
@@ -12,19 +13,21 @@ class SmallHomePage extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 10,
+          spacing: smallGapSize,
           children: [
-            ElevatedButton(
-              onPressed: () => _navigateToPage(context, (context) => PairWithPhonePage()),
-              child: const Text('Pair'),
-            ),
-            ElevatedButton(
-              onPressed: () => _navigateToPage(context, (context) => VibrationPage()),
-              child: const Text('Settings'),
-            ),
+            _buildButton(context, 'Pair', Icons.link, (_) => PairWithPhonePage()),
+            _buildButton(context, 'Vibrate', Icons.vibration, (_) => VibrationPage()),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildButton(BuildContext context, String label, IconData icon, WidgetBuilder pageBuilder) {
+    return ElevatedButton.icon(
+      onPressed: () => _navigateToPage(context, pageBuilder),
+      label: Text(label),
+      icon: Icon(icon),
     );
   }
 
