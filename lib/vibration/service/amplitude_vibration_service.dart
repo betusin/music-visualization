@@ -64,6 +64,7 @@ class AmplitudeVibrationService implements Disposable {
         await Future.delayed(Duration(milliseconds: vibrationMetadata.beat));
       } else {
         stopVibrating();
+        return;
       }
     }
 
