@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:ui_kit/stream/widget/handling_stream_builder.dart';
 import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
@@ -24,19 +25,14 @@ class VibrationSwitcherAndAdjuster extends StatelessWidget {
     return HandlingStreamBuilder(
       stream: _amplitudeVibrationService.vibrationOnStream,
       builder: (context, isVibrationOn) {
-        return Padding(
-          padding: const EdgeInsets.all(smallGapSize),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            spacing: smallGapSize,
-            children: [
-              Text('Vibration ${isVibrationOn ? 'On' : 'Off'}'),
-              Switch(
-                value: isVibrationOn,
-                onChanged: (value) => _handleVibrationSwitch(value),
-              ),
-            ],
-          ),
+        return FlutterSwitch(
+          value: isVibrationOn,
+          onToggle: (value) => _handleVibrationSwitch(value),
+          activeText: 'Vibration On',
+          inactiveText: 'Vibration Off',
+          showOnOff: true,
+          width: 130,
+          activeColor: primaryColor,
         );
       },
     );
