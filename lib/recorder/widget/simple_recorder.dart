@@ -23,17 +23,11 @@ class SimpleRecorder extends StatelessWidget {
     return HandlingStreamBuilder(
       stream: _recorderController.stream,
       builder: (context, data) {
-        if (data == null) {
-          return ElevatedButton.icon(
-            onPressed: () => _startRecordingToStream(context),
-            icon: Icon(Icons.play_arrow),
-            label: Text('Play'),
-          );
-        }
+        final isRecording = data != null;
         return ElevatedButton.icon(
-          onPressed: () => _recorderController.stopRecording(),
-          icon: Icon(Icons.pause),
-          label: Text('Pause'),
+          onPressed: () => isRecording ? _recorderController.stopRecording() : _startRecordingToStream(context),
+          icon: Icon(isRecording ? Icons.mic_off_rounded : Icons.mic_rounded),
+          label: Text('${isRecording ? 'Stop' : 'Start'} recording'),
         );
       },
     );
