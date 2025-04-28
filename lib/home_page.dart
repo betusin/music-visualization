@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.graphic_eq), label: 'Visualization'),
           BottomNavigationBarItem(icon: Icon(Icons.vibration), label: 'Vibration'),
-          BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Music'),
+          BottomNavigationBarItem(icon: Icon(Icons.mic), label: 'Microphone'),
           BottomNavigationBarItem(icon: Icon(Icons.link), label: 'Pair'),
         ],
         onTap: (value) => setState(() => _selectedIndex = value),

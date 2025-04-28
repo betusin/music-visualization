@@ -18,9 +18,15 @@ class VibrationSwitcherAndAdjuster extends StatelessWidget {
         HandlingStreamBuilder(
           stream: _amplitudeVibrationService.vibrationOnStream,
           builder: (context, isVibrationOn) {
-            return Switch(
-              value: isVibrationOn,
-              onChanged: (value) => _handleVibrationSwitch(value),
+            return Row(
+              spacing: smallGapSize,
+              children: [
+                Text('Vibration ${isVibrationOn ? 'On' : 'Off'}'),
+                Switch(
+                  value: isVibrationOn,
+                  onChanged: (value) => _handleVibrationSwitch(value),
+                ),
+              ],
             );
           },
         ),
@@ -44,7 +50,7 @@ class VibrationSwitcherAndAdjuster extends StatelessWidget {
             divisions: 15,
             value: amplitude,
             onChanged: (value) => _amplitudeVibrationService.setAmplitude(value),
-            min: minAmplitude,
+            min: 0,
             max: maxAmplitude,
             label: (amplitude).toInt().toString(),
           ),
