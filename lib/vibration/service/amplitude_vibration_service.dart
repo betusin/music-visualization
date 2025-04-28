@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:vibration/vibration.dart';
-import 'package:vibration_poc/audio/service/audio_file_controller.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
 import 'package:vibration_poc/vibration/model/vibration_status_enum.dart';
@@ -16,14 +15,13 @@ const _defaultAmplitudeNormalizationFactor = 0.0;
 
 class AmplitudeVibrationService implements Disposable {
   final RecorderController _recorderController;
-  final AudioFileController _audioFileController;
 
   final _vibrationController = BehaviorSubject<bool>.seeded(false);
   final _amplitudeController = BehaviorSubject<double>.seeded(_defaultAmplitudeNormalizationFactor);
 
   StreamSubscription? _amplitudeSubscription;
 
-  AmplitudeVibrationService(this._recorderController, this._audioFileController);
+  AmplitudeVibrationService(this._recorderController);
 
   Stream<bool> get vibrationOnStream => _vibrationController.stream;
   Stream<double> get amplitudeStream => _amplitudeController.stream;
@@ -36,15 +34,6 @@ class AmplitudeVibrationService implements Disposable {
         final amplitudeData = await futureAmplitude;
         _vibrateBasedOnAmplitude(amplitudeData?.current);
       },
-    );
-  }
-
-  Future<void> vibrateBasedOnTheFile(String filePath) async {
-    _audioFileController.initVibrationStream(filePath);
-    _vibrationController.add(true);
-
-    _amplitudeSubscription = _audioFileController.audioAmplitudeStream.listen(
-      (amplitude) => _vibrateBasedOnAmplitude(amplitude),
     );
   }
 

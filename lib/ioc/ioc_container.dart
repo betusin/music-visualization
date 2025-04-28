@@ -1,7 +1,5 @@
 import 'package:firebase_kit/collection_repo/firestore_repository.dart';
 import 'package:get_it/get_it.dart';
-import 'package:vibration_poc/audio/service/audio_file_controller.dart';
-import 'package:vibration_poc/audio/service/audio_vibration_service.dart';
 import 'package:vibration_poc/auth/service/auth_service.dart';
 import 'package:vibration_poc/background_service/service/background_service_handler.dart';
 import 'package:vibration_poc/common/collection_names.dart';
@@ -20,11 +18,8 @@ class IocContainer {
 
   static void backgroundSetup() {
     get.registerSingleton(RecorderController());
-    get.registerSingleton(AudioVibrationService());
-    get.registerSingleton(AudioFileController(get<AudioVibrationService>()));
     get.registerSingleton(AmplitudeVibrationService(
       get<RecorderController>(),
-      get<AudioFileController>(),
     ));
   }
 
@@ -51,11 +46,8 @@ class IocContainer {
 
     get.registerSingleton(RecorderController());
     get.registerSingleton(BackgroundServiceHandler(get<RecorderController>()));
-    get.registerSingleton(AudioVibrationService());
-    get.registerSingleton(AudioFileController(get<AudioVibrationService>()));
     get.registerSingleton(AmplitudeVibrationService(
       get<RecorderController>(),
-      get<AudioFileController>(),
     ));
     get.registerSingleton(FirebaseStorageService());
   }
