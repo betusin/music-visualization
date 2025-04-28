@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_new/ffprobe_kit.dart';
 import 'package:master_kit/util/random_id_generator.dart';
 import 'package:vibration_poc/vibration/model/audio_properties.dart';
 import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
