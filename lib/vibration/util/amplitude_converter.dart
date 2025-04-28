@@ -11,7 +11,7 @@ class AmplitudeConverter {
     return value.clamp(low, high);
   }
 
-  /// Maps a given `value` from one range (`inMin` to `inMax`) to another (`outMin` to `outMax`).
+  /// Maps a given `value` from one range (`start1` to `stop1`) to another (`start2` to `stop2`).
   ///
   /// This function performs a linear transformation of `value` so that a number in the
   /// input range is proportionally scaled to the output range.
