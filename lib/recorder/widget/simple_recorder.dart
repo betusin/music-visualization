@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/stream/widget/handling_stream_builder.dart';
-import 'package:vibration_poc/background_service/widget/start_stop_buttons.dart';
+import 'package:vibration_poc/background_service/widget/on_off_background_buttons.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 
@@ -14,7 +14,7 @@ class SimpleRecorder extends StatelessWidget {
     return Column(
       children: [
         _buildStartStopRecording(context),
-        StartStopButtons(),
+        OnOffBackgroundButtons(),
       ],
     );
   }

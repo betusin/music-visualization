@@ -4,15 +4,16 @@ import 'package:vibration_poc/background_service/service/background_service_hand
 import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 
-class StartStopButtons extends StatefulWidget {
-  const StartStopButtons({super.key});
+class OnOffBackgroundButtons extends StatefulWidget {
+  const OnOffBackgroundButtons({super.key});
 
   @override
-  State<StartStopButtons> createState() => _StartStopButtonsState();
+  State<OnOffBackgroundButtons> createState() => _OnOffBackgroundButtonsState();
 }
 
-class _StartStopButtonsState extends State<StartStopButtons> {
+class _OnOffBackgroundButtonsState extends State<OnOffBackgroundButtons> {
   final BackgroundServiceHandler _backgroundServiceHandler = get<BackgroundServiceHandler>();
+  // TODO(betka): this will not persist when app reopened
   bool isBackgroundServiceRunning = false;
 
   @override
