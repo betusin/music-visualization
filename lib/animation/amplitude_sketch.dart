@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:p5/model/vector.dart';
 import 'package:p5/painter.dart';
+import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
 
@@ -20,11 +21,11 @@ class AmplitudeSketch extends Painter {
 
   @override
   void draw() {
-    background(color(255, 255, 255));
+    background(Colors.black12);
 
     noFill();
     strokeWeight(_strokeWeight);
-    stroke(Colors.red);
+    stroke(primaryColor);
 
     beginShape();
 

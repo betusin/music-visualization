@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+const primaryColor = Colors.deepPurple;
 
 const smallGapSize = 8.0;
 const smallGap = SizedBox(height: smallGapSize, width: smallGapSize);

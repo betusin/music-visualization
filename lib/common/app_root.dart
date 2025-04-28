@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/home_page.dart';
 import 'package:vibration_poc/watch/widget/small_home_page.dart';
 
@@ -11,7 +12,7 @@ class AppRoot extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
+          seedColor: primaryColor,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
