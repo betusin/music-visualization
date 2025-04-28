@@ -22,6 +22,6 @@ class BackgroundServiceHandler {
 
   void stopBackgroundService() {
     final service = FlutterBackgroundService();
-    service.invoke("stopVibration");
+    service.invoke("stopRecording");
   }
 }

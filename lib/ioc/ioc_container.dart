@@ -18,6 +18,16 @@ final get = GetIt.instance;
 class IocContainer {
   IocContainer._();
 
+  static void backgroundSetup() {
+    get.registerSingleton(RecorderController());
+    get.registerSingleton(AudioVibrationService());
+    get.registerSingleton(AudioFileController(get<AudioVibrationService>()));
+    get.registerSingleton(AmplitudeVibrationService(
+      get<RecorderController>(),
+      get<AudioFileController>(),
+    ));
+  }
+
   static void setup() {
     get.registerSingleton(FirestoreRepository<PairRequest>(
       CollectionNames.pairRequestsCollection,

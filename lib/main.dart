@@ -58,7 +58,7 @@ bool onIosBackground(ServiceInstance service) {
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   WidgetsFlutterBinding.ensureInitialized();
-  IocContainer.setup();
+  IocContainer.backgroundSetup();
 
   final recorderController = get<RecorderController>();
   final amplitudeVibrationService = get<AmplitudeVibrationService>();
@@ -73,7 +73,7 @@ void onStart(ServiceInstance service) async {
   recorderController.startRecordingInBackground();
   amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone();
 
-  service.on("stopVibration").listen((event) {
+  service.on("stopRecording").listen((event) {
     amplitudeVibrationService.stopVibrating();
     recorderController.stopRecording();
     service.stopSelf();
