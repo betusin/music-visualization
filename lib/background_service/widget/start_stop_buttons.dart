@@ -18,11 +18,11 @@ class StartStopButtons extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: _backgroundServiceHandler.startBackgroundService,
-          child: const Text("Quit app and record in the background"),
+          child: const Text('Quit app and record in the background'),
         ),
         ElevatedButton(
           onPressed: _backgroundServiceHandler.stopBackgroundService,
-          child: const Text("Stop recording in the background"),
+          child: const Text('Stop recording in the background'),
         ),
       ],
     );

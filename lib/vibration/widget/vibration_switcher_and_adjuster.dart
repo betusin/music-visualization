@@ -12,26 +12,33 @@ class VibrationSwitcherAndAdjuster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        smallGap,
-        HandlingStreamBuilder(
-          stream: _amplitudeVibrationService.vibrationOnStream,
-          builder: (context, isVibrationOn) {
-            return Row(
-              spacing: smallGapSize,
-              children: [
-                Text('Vibration ${isVibrationOn ? 'On' : 'Off'}'),
-                Switch(
-                  value: isVibrationOn,
-                  onChanged: (value) => _handleVibrationSwitch(value),
-                ),
-              ],
-            );
-          },
-        ),
+        _buildVibrationOnOff(),
         _buildAmplitudeSlider(),
       ],
+    );
+  }
+
+  Widget _buildVibrationOnOff() {
+    return HandlingStreamBuilder(
+      stream: _amplitudeVibrationService.vibrationOnStream,
+      builder: (context, isVibrationOn) {
+        return Padding(
+          padding: const EdgeInsets.all(smallGapSize),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spacing: smallGapSize,
+            children: [
+              Text('Vibration ${isVibrationOn ? 'On' : 'Off'}'),
+              Switch(
+                value: isVibrationOn,
+                onChanged: (value) => _handleVibrationSwitch(value),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -45,15 +52,13 @@ class VibrationSwitcherAndAdjuster extends StatelessWidget {
     return HandlingStreamBuilder(
       stream: _amplitudeVibrationService.amplitudeStream,
       builder: (context, amplitude) {
-        return Flexible(
-          child: Slider(
-            divisions: 15,
-            value: amplitude,
-            onChanged: (value) => _amplitudeVibrationService.setAmplitude(value),
-            min: 0,
-            max: maxAmplitude,
-            label: (amplitude).toInt().toString(),
-          ),
+        return Slider(
+          divisions: 15,
+          value: amplitude,
+          onChanged: (value) => _amplitudeVibrationService.setAmplitude(value),
+          min: 0,
+          max: maxAmplitude,
+          label: (amplitude).toInt().toString(),
         );
       },
     );
