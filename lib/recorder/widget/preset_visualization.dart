@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/auth/service/auth_service.dart';
@@ -48,6 +50,13 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   }
 
   Widget _buildFilePicker() {
+    if (Platform.isIOS) {
+      setState(() {
+        _fileName = 'Picked one of the sample songs.';
+        _fileId = '12.mp3';
+      });
+      return ElevatedButton(onPressed: null, child: Text("Picking files not supported on iOS devices"));
+    }
     return Padding(
       padding: const EdgeInsets.only(left: smallGapSize),
       child: Row(
