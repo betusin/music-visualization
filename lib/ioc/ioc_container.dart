@@ -7,6 +7,7 @@ import 'package:vibration_poc/pair/model/pair_link.dart';
 import 'package:vibration_poc/pair/model/pair_request.dart';
 import 'package:vibration_poc/pair/service/pairing_service.dart';
 import 'package:vibration_poc/recorder/service/recorder_controller.dart';
+import 'package:vibration_poc/song_picking_test/service/test_mode_controller.dart';
 import 'package:vibration_poc/storage/serivce/firebase_storage_service.dart';
 import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
@@ -50,5 +51,6 @@ class IocContainer {
       get<RecorderController>(),
     ));
     get.registerSingleton(FirebaseStorageService());
+    get.registerSingleton(TestModeController());
   }
 }

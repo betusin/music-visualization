@@ -4,14 +4,14 @@ import 'package:vibration_poc/recorder/widget/animation_with_vibration_page.dart
 import 'package:vibration_poc/recorder/widget/preset_visualization.dart';
 import 'package:vibration_poc/vibration/widget/vibration_switcher_and_adjuster.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   static final List<Widget> _pages = <Widget>[
     PresetVisualization(),

@@ -11,7 +11,18 @@ import 'package:vibration_poc/vibration/widget/vibration_observer.dart';
 import 'package:vibration_poc/web_view/widget/web_page_display.dart';
 
 class PresetVisualization extends StatefulWidget {
-  const PresetVisualization({super.key});
+  final String? initialFileId;
+  final String? initialPreset;
+  final bool showFilePicker;
+  final bool showVibration;
+
+  const PresetVisualization({
+    super.key,
+    this.initialFileId,
+    this.initialPreset,
+    this.showFilePicker = true,
+    this.showVibration = true,
+  });
 
   @override
   State<PresetVisualization> createState() => _PresetVisualizationState();
@@ -21,9 +32,16 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   final _firebaseStorageService = get<FirebaseStorageService>();
   final _authService = get<AuthService>();
 
-  String _selectedPreset = presets.first;
+  late String _selectedPreset;
   String? _fileName;
-  String? _fileId;
+  late String? _fileId;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedPreset = widget.initialPreset ?? presets.first;
+    _fileId = widget.initialFileId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +51,13 @@ class _PresetVisualizationState extends State<PresetVisualization> {
     return Column(
       spacing: smallGapSize,
       children: [
-        _buildFilePicker(),
+        if (widget.showFilePicker) _buildFilePicker(),
         DropdownMenu(
           dropdownMenuEntries: entries.toList(),
           initialSelection: presets.first,
           onSelected: (value) => value != null ? setState(() => _selectedPreset = value) : null,
         ),
-        if (uid != null)
+        if (widget.showVibration && uid != null)
           VibrationObserver(
             deviceId: uid,
             direction: Axis.horizontal,
