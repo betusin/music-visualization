@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vibration_poc/pair/widget/pair_page.dart';
+import 'package:vibration_poc/pair/widget/pair_page_content.dart';
 import 'package:vibration_poc/recorder/widget/animation_with_vibration_page.dart';
 import 'package:vibration_poc/recorder/widget/preset_visualization.dart';
 import 'package:vibration_poc/vibration/widget/vibration_switcher_and_adjuster.dart';
@@ -17,7 +17,7 @@ class _MainPageState extends State<MainPage> {
     PresetVisualization(),
     Expanded(child: VibrationSwitcherAndAdjuster()),
     AnimationWithVibration(),
-    PairPage(),
+    PairPageContent(),
   ];
 
   @override

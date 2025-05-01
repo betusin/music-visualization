@@ -7,14 +7,14 @@ import 'package:vibration_poc/pair/enum/pair_request_status.dart';
 import 'package:vibration_poc/pair/model/pair_request.dart';
 import 'package:vibration_poc/pair/service/pairing_service.dart';
 
-class PairPage extends StatefulWidget {
-  const PairPage({super.key});
+class PairPageContent extends StatefulWidget {
+  const PairPageContent({super.key});
 
   @override
-  State<PairPage> createState() => _PairPageState();
+  State<PairPageContent> createState() => _PairPageContentState();
 }
 
-class _PairPageState extends State<PairPage> {
+class _PairPageContentState extends State<PairPageContent> {
   final _pairingService = get<PairingService>();
 
   @override
@@ -48,20 +48,24 @@ class _PairPageState extends State<PairPage> {
 
   Widget _buildCodeCard(BuildContext context, int? code) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: cardCircularRadius),
-      color: colorScheme.primaryContainer,
-      shadowColor: Colors.grey.withOpacity(0.2),
-      child: Padding(
-        padding: const EdgeInsets.all(standardGapSize),
-        child: Text(
-          '$code',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 4,
-            color: colorScheme.onPrimaryContainer,
+    return InkWell(
+      onTap: () => _pairingService.createPairingDoc(),
+      borderRadius: cardCircularRadius,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: cardCircularRadius),
+        color: colorScheme.primaryContainer,
+        shadowColor: Colors.grey.withOpacity(0.2),
+        child: Padding(
+          padding: const EdgeInsets.all(standardGapSize),
+          child: Text(
+            '$code',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 4,
+              color: colorScheme.onPrimaryContainer,
+            ),
           ),
         ),
       ),
