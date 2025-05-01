@@ -25,6 +25,7 @@ class AmplitudeVibrationService implements Disposable {
 
   Stream<bool> get vibrationOnStream => _vibrationController.stream;
   Stream<double> get amplitudeStream => _amplitudeController.stream;
+  bool get _canVibrate => _vibrationController.value;
 
   Future<void> vibrateBasedOnAmplitudeFromMicrophone() async {
     _vibrationController.add(true);
@@ -39,7 +40,7 @@ class AmplitudeVibrationService implements Disposable {
 
   void _vibrateBasedOnAmplitude(double? amplitude) {
     Vibration.cancel();
-    if (amplitude != null) {
+    if (amplitude != null && _canVibrate) {
       final normalizedAmplitude = max(amplitude + _amplitudeController.value, minDbFS);
       final constrainedAmplitude = AmplitudeConverter.mapDbFsToVibrationAmplitude(normalizedAmplitude);
       Vibration.vibrate(amplitude: constrainedAmplitude.toInt());
@@ -51,9 +52,7 @@ class AmplitudeVibrationService implements Disposable {
 
     for (final amplitude in vibrationMetadata.amplitudes) {
       if (vibrationMetadata.vibrationStatus == VibrationStatus.playing) {
-        if (_vibrationController.value) {
-          _vibrateBasedOnAmplitude(amplitude);
-        }
+        _vibrateBasedOnAmplitude(amplitude);
         await Future.delayed(Duration(milliseconds: vibrationMetadata.beat));
       } else {
         stopVibrating();

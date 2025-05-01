@@ -97,7 +97,7 @@ class _SteppedTaskPageState extends State<SteppedTaskPage> {
   void _nextStep() {
     if (!_isGuessing) {
       setState(() => _isGuessing = true);
-      _amplitudeVibrationService.pauseVibrating();
+      // TODO(betka): here it should manually stop, otherwise it overrides user's choice
       return;
     }
 
