@@ -48,11 +48,15 @@ class _PresetVisualizationState extends State<PresetVisualization> {
 
   @override
   void dispose() {
+    _deleteVibrationForCurrentUser();
+    super.dispose();
+  }
+
+  void _deleteVibrationForCurrentUser() {
     final uid = _authService.currentUser?.uid;
     if (uid != null) {
       _vibrationRepo.delete(uid);
     }
-    super.dispose();
   }
 
   @override
@@ -101,6 +105,8 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   }
 
   Widget _buildVisualization(String? uid) {
+    _deleteVibrationForCurrentUser();
+
     if (_fileId == null) {
       return Text("Pick a file to visualize");
     }

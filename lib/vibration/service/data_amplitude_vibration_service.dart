@@ -30,7 +30,9 @@ class DataAmplitudeVibrationService implements Disposable {
     }
 
     _vibrationSubscription = _vibrationMetadataRepo.observeDocument(deviceId).listen((vibrationMetadata) {
-      vibrationMetadata == null ? null : _amplitudeVibrationService.vibrateBasedOnVibrationMetadata(vibrationMetadata);
+      vibrationMetadata == null
+          ? _amplitudeVibrationService.stopVibrating()
+          : _amplitudeVibrationService.vibrateBasedOnVibrationMetadata(vibrationMetadata);
     });
   }
 
