@@ -51,7 +51,7 @@ class _SteppedTaskPageState extends State<SteppedTaskPage> {
               : PresetVisualization(
                   initialFileId: _songIdentifiers[_currentStep],
                   showFilePicker: false,
-                  showVibration: false,
+                  showVibrationStatus: false,
                 ),
     );
   }

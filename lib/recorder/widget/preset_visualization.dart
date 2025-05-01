@@ -14,14 +14,14 @@ class PresetVisualization extends StatefulWidget {
   final String? initialFileId;
   final String? initialPreset;
   final bool showFilePicker;
-  final bool showVibration;
+  final bool showVibrationStatus;
 
   const PresetVisualization({
     super.key,
     this.initialFileId,
     this.initialPreset,
     this.showFilePicker = true,
-    this.showVibration = true,
+    this.showVibrationStatus = true,
   });
 
   @override
@@ -57,10 +57,11 @@ class _PresetVisualizationState extends State<PresetVisualization> {
           initialSelection: presets.first,
           onSelected: (value) => value != null ? setState(() => _selectedPreset = value) : null,
         ),
-        if (widget.showVibration && uid != null)
+        if (uid != null)
           VibrationObserver(
             deviceId: uid,
             direction: Axis.horizontal,
+            showVibrationStatus: widget.showVibrationStatus,
           ),
         _buildVisualization(uid),
       ],

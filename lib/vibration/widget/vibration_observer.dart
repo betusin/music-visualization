@@ -6,6 +6,7 @@ import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
 import 'package:vibration_poc/vibration/model/vibration_status_enum.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
+import 'package:vibration_poc/vibration/widget/vibration_switcher.dart';
 
 class VibrationObserver extends StatelessWidget {
   final _amplitudeVibrationService = get<AmplitudeVibrationService>();
@@ -13,8 +14,14 @@ class VibrationObserver extends StatelessWidget {
 
   final String deviceId;
   final Axis direction;
+  final bool showVibrationStatus;
 
-  VibrationObserver({super.key, required this.deviceId, this.direction = Axis.vertical});
+  VibrationObserver({
+    super.key,
+    required this.deviceId,
+    this.direction = Axis.vertical,
+    this.showVibrationStatus = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,30 +33,19 @@ class VibrationObserver extends StatelessWidget {
         }
 
         _amplitudeVibrationService.vibrateBasedOnVibrationMetadata(vibrationMetadata);
+
+        if (!showVibrationStatus) {
+          return VibrationSwitcher();
+        }
+
         return Flex(
           mainAxisAlignment: MainAxisAlignment.center,
           direction: direction,
           spacing: smallGapSize,
           children: [
-            _buildStopVibrateButton(),
+            VibrationSwitcher(),
             _buildVibrationStatus(vibrationMetadata.vibrationStatus),
           ],
-        );
-      },
-    );
-  }
-
-  Widget _buildStopVibrateButton() {
-    return HandlingStreamBuilder(
-      stream: _amplitudeVibrationService.vibrationOnStream,
-      builder: (context, vibrationOn) {
-        if (!vibrationOn) {
-          return SizedBox();
-        }
-        return ElevatedButton.icon(
-          onPressed: () => _amplitudeVibrationService.stopVibrating(),
-          label: Text('Stop'),
-          icon: Icon(Icons.stop_circle),
         );
       },
     );
