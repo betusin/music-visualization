@@ -16,10 +16,11 @@ const _defaultAmplitudeNormalizationFactor = 0.0;
 class AmplitudeVibrationService implements Disposable {
   final RecorderController _recorderController;
 
-  final _vibrationController = BehaviorSubject<bool>.seeded(false);
+  final _vibrationController = BehaviorSubject<bool>.seeded(true);
   final _amplitudeController = BehaviorSubject<double>.seeded(_defaultAmplitudeNormalizationFactor);
 
   StreamSubscription? _amplitudeSubscription;
+  bool _manuallyStopped = false;
 
   AmplitudeVibrationService(this._recorderController);
 
@@ -28,7 +29,7 @@ class AmplitudeVibrationService implements Disposable {
   bool get _canVibrate => _vibrationController.value;
 
   Future<void> vibrateBasedOnAmplitudeFromMicrophone() async {
-    _vibrationController.add(true);
+    _manuallyStart();
 
     _amplitudeSubscription = _recorderController.getAmplitudePeriodicStream().listen(
       (futureAmplitude) async {
@@ -48,10 +49,10 @@ class AmplitudeVibrationService implements Disposable {
   }
 
   Future<void> vibrateBasedOnVibrationMetadata(VibrationMetadata vibrationMetadata) async {
-    _vibrationController.add(true);
+    _manuallyStart();
 
     for (final amplitude in vibrationMetadata.amplitudes) {
-      if (vibrationMetadata.vibrationStatus == VibrationStatus.playing) {
+      if (vibrationMetadata.vibrationStatus == VibrationStatus.playing && !_manuallyStopped) {
         _vibrateBasedOnAmplitude(amplitude);
         await Future.delayed(Duration(milliseconds: vibrationMetadata.beat));
       } else {
@@ -68,11 +69,14 @@ class AmplitudeVibrationService implements Disposable {
   void resumeVibrating() => _vibrationController.add(true);
   void pauseVibrating() => _vibrationController.add(false);
 
+  void _manuallyStop() => _manuallyStopped = true;
+  void _manuallyStart() => _manuallyStopped = false;
+
   Future<void> stopVibrating() async {
     Vibration.cancel();
     await _amplitudeSubscription?.cancel();
     _amplitudeSubscription = null;
-    _vibrationController.add(false);
+    _manuallyStop();
   }
 
   @override
