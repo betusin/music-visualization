@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:master_kit/sdk_extension/iterable/iterable_extension.dart';
 import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/common/widget/main_page.dart';
+import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/widget/preset_visualization.dart';
+import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
 // TODO(betka): get chosen songs
@@ -22,6 +24,8 @@ class SteppedTaskPage extends StatefulWidget {
 }
 
 class _SteppedTaskPageState extends State<SteppedTaskPage> {
+  final _amplitudeVibrationService = get<AmplitudeVibrationService>();
+
   // TODO(betka): move these to controller?
   int _currentStep = 0;
   int _correctAnswers = 0;
@@ -88,6 +92,7 @@ class _SteppedTaskPageState extends State<SteppedTaskPage> {
   void _nextStep() {
     if (!_isGuessing) {
       setState(() => _isGuessing = true);
+      _amplitudeVibrationService.pauseVibrating();
       return;
     }
 

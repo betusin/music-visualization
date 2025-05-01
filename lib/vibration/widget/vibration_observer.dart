@@ -5,11 +5,9 @@ import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
 import 'package:vibration_poc/vibration/model/vibration_status_enum.dart';
-import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 import 'package:vibration_poc/vibration/widget/vibration_switcher.dart';
 
 class VibrationObserver extends StatelessWidget {
-  final _amplitudeVibrationService = get<AmplitudeVibrationService>();
   final _vibrationMetadataRepo = get<FirestoreRepository<VibrationMetadata>>();
 
   final String deviceId;
@@ -32,10 +30,10 @@ class VibrationObserver extends StatelessWidget {
           return Text('No audio file picked via paired device');
         }
 
-        _amplitudeVibrationService.vibrateBasedOnVibrationMetadata(vibrationMetadata);
+        final switcher = VibrationSwitcher(deviceId: deviceId);
 
         if (!showVibrationStatus) {
-          return VibrationSwitcher();
+          return switcher;
         }
 
         return Flex(
@@ -43,7 +41,7 @@ class VibrationObserver extends StatelessWidget {
           direction: direction,
           spacing: smallGapSize,
           children: [
-            VibrationSwitcher(),
+            switcher,
             _buildVibrationStatus(vibrationMetadata.vibrationStatus),
           ],
         );

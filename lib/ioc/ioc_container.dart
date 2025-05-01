@@ -11,6 +11,7 @@ import 'package:vibration_poc/song_picking_test/service/test_mode_controller.dar
 import 'package:vibration_poc/storage/serivce/firebase_storage_service.dart';
 import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
+import 'package:vibration_poc/vibration/service/data_amplitude_vibration_service.dart';
 
 final get = GetIt.instance;
 
@@ -52,5 +53,10 @@ class IocContainer {
     ));
     get.registerSingleton(FirebaseStorageService());
     get.registerSingleton(TestModeController());
+    get.registerSingleton(DataAmplitudeVibrationService(
+      get<AmplitudeVibrationService>(),
+      get<FirestoreRepository<VibrationMetadata>>(),
+      get<AuthService>(),
+    ));
   }
 }

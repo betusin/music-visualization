@@ -8,16 +8,26 @@ import 'package:vibration_poc/vibration/widget/vibration_switcher.dart';
 class VibrationSwitcherAndAdjuster extends StatelessWidget {
   final _amplitudeVibrationService = get<AmplitudeVibrationService>();
 
-  VibrationSwitcherAndAdjuster({super.key});
+  final String? deviceId;
+
+  VibrationSwitcherAndAdjuster({super.key, this.deviceId});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         VibrationSwitcher(
-          onToggle: (value) => value
-              ? _amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone()
-              : _amplitudeVibrationService.stopVibrating(),
+          deviceId: deviceId,
+          onToggle: (value) {
+            if (deviceId == null) {
+              value
+                  ? _amplitudeVibrationService.vibrateBasedOnAmplitudeFromMicrophone()
+                  : _amplitudeVibrationService.stopVibrating();
+              return;
+            }
+
+            value ? _amplitudeVibrationService.resumeVibrating() : _amplitudeVibrationService.pauseVibrating();
+          },
         ),
         _buildAmplitudeSlider(),
       ],

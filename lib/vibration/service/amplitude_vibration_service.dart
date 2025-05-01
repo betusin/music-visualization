@@ -50,8 +50,10 @@ class AmplitudeVibrationService implements Disposable {
     _vibrationController.add(true);
 
     for (final amplitude in vibrationMetadata.amplitudes) {
-      if (vibrationMetadata.vibrationStatus == VibrationStatus.playing && _vibrationController.value) {
-        _vibrateBasedOnAmplitude(amplitude);
+      if (vibrationMetadata.vibrationStatus == VibrationStatus.playing) {
+        if (_vibrationController.value) {
+          _vibrateBasedOnAmplitude(amplitude);
+        }
         await Future.delayed(Duration(milliseconds: vibrationMetadata.beat));
       } else {
         stopVibrating();
@@ -63,6 +65,9 @@ class AmplitudeVibrationService implements Disposable {
   }
 
   void setAmplitude(double value) => _amplitudeController.add(value);
+
+  void resumeVibrating() => _vibrationController.add(true);
+  void pauseVibrating() => _vibrationController.add(false);
 
   Future<void> stopVibrating() async {
     Vibration.cancel();
