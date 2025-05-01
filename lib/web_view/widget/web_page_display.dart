@@ -6,6 +6,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
+const _debugPrint = false;
+
 class WebPageDisplay extends StatefulWidget {
   final String url;
   const WebPageDisplay({super.key, required this.url});
@@ -38,40 +40,42 @@ class _WebPageDisplayState extends State<WebPageDisplay> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            debugPrint('WebView is loading (progress : $progress%)');
+            if (_debugPrint) debugPrint('WebView is loading (progress : $progress%)');
           },
           onPageStarted: (String url) {
-            debugPrint('Page started loading: $url');
+            if (_debugPrint) debugPrint('Page started loading: $url');
           },
           onPageFinished: (String url) {
-            debugPrint('Page finished loading: $url');
+            if (_debugPrint) debugPrint('Page finished loading: $url');
           },
           onWebResourceError: (WebResourceError error) {
-            debugPrint('''
+            if (_debugPrint) {
+              debugPrint('''
 Page resource error:
   code: ${error.errorCode}
   description: ${error.description}
   errorType: ${error.errorType}
   isForMainFrame: ${error.isForMainFrame}
           ''');
+            }
           },
           onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
-              debugPrint('blocking navigation to ${request.url}');
+              if (_debugPrint) ('blocking navigation to ${request.url}');
               return NavigationDecision.prevent;
             }
-            debugPrint('allowing navigation to ${request.url}');
+            if (_debugPrint) ('allowing navigation to ${request.url}');
             return NavigationDecision.navigate;
           },
           onHttpError: (HttpResponseError error) {
-            debugPrint('Error occurred on page: ${error.response?.statusCode}');
+            if (_debugPrint) ('Error occurred on page: ${error.response?.statusCode}');
           },
           onUrlChange: (UrlChange change) {
-            debugPrint('url change to ${change.url}');
+            if (_debugPrint) debugPrint('url change to ${change.url}');
           },
           onHttpAuthRequest: (HttpAuthRequest request) {
             // openDialog(request);
-            debugPrint('auth required');
+            if (_debugPrint) ('auth required');
           },
         ),
       )
