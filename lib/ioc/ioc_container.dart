@@ -52,11 +52,13 @@ class IocContainer {
       get<RecorderController>(),
     ));
     get.registerSingleton(FirebaseStorageService());
-    get.registerSingleton(TestModeController());
     get.registerSingleton(DataAmplitudeVibrationService(
       get<AmplitudeVibrationService>(),
       get<FirestoreRepository<VibrationMetadata>>(),
       get<AuthService>(),
+    ));
+    get.registerSingleton(TestModeController(
+      get<DataAmplitudeVibrationService>(),
     ));
   }
 }
