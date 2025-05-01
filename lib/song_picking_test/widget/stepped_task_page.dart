@@ -2,12 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:master_kit/sdk_extension/iterable/iterable_extension.dart';
+import 'package:vibration_poc/auth/service/auth_service.dart';
 import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/common/widget/main_page.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/widget/preset_visualization.dart';
 import 'package:vibration_poc/song_picking_test/service/test_mode_controller.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
+import 'package:vibration_poc/vibration/widget/vibration_switcher.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
 const _songIdentifiers = [
@@ -35,6 +37,7 @@ class SteppedTaskPage extends StatefulWidget {
 
 class _SteppedTaskPageState extends State<SteppedTaskPage> {
   final _amplitudeVibrationService = get<AmplitudeVibrationService>();
+  final _authService = get<AuthService>();
   final _testModeController = get<TestModeController>();
 
   // TODO(betka): move these to controller?
@@ -48,12 +51,25 @@ class _SteppedTaskPageState extends State<SteppedTaskPage> {
   @override
   Widget build(BuildContext context) {
     return PageWrapper(
-      title: _finishedTest ? null : 'Song ${_isGuessing ? 'Guessing' : 'Playing'} - Step ${_currentStep + 1}',
+      title: _finishedTest ? null : '${_isGuessing ? 'Guessing' : 'Playing'} Song ${_currentStep + 1}',
+      actions: _buildActions(),
       floatingActionButton: _finishedTest || _isGuessing && _currentlySelectedOption == null
           ? null
           : FloatingActionButton(onPressed: () => _nextStep(), child: Icon(Icons.navigate_next)),
       child: _buildChild(),
     );
+  }
+
+  List<Widget>? _buildActions() {
+    if (_isGuessing || _finishedTest) {
+      return null;
+    }
+    return [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: smallGapSize),
+        child: VibrationSwitcher(deviceId: _authService.currentUser?.uid),
+      )
+    ];
   }
 
   Widget _buildChild() {
@@ -66,7 +82,6 @@ class _SteppedTaskPageState extends State<SteppedTaskPage> {
               : PresetVisualization(
                   initialFileId: _songIdentifiers[_currentStep],
                   showFilePicker: false,
-                  showVibrationStatus: false,
                 ),
     );
   }

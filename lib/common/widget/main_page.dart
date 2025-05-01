@@ -3,6 +3,7 @@ import 'package:vibration_poc/pair/widget/pair_page_content.dart';
 import 'package:vibration_poc/recorder/widget/animation_with_vibration_page.dart';
 import 'package:vibration_poc/recorder/widget/preset_visualization.dart';
 import 'package:vibration_poc/vibration/widget/vibration_switcher_and_adjuster.dart';
+import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,6 +14,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
+
   static final List<Widget> _pages = <Widget>[
     PresetVisualization(),
     VibrationSwitcherAndAdjuster(),
@@ -22,8 +24,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Custom Vibration Demo')),
+    return PageWrapper(
+      title: 'Music Visualization',
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
@@ -35,7 +37,7 @@ class _MainPageState extends State<MainPage> {
         onTap: (value) => setState(() => _selectedIndex = value),
         currentIndex: _selectedIndex,
       ),
-      body: _pages[_selectedIndex],
+      child: _pages[_selectedIndex],
     );
   }
 }

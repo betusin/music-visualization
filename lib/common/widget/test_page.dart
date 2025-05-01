@@ -33,7 +33,10 @@ class TestPage extends StatelessWidget {
                 ),
               ],
             ),
-            TextButton(onPressed: () => _testModeController.finishTestMode(), child: Text('Skip Test')),
+            Padding(
+              padding: const EdgeInsets.only(bottom: standardGapSize),
+              child: TextButton(onPressed: () => _testModeController.finishTestMode(), child: Text('Skip Test')),
+            ),
           ],
         ),
       ),

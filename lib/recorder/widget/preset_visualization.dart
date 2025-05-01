@@ -10,21 +10,19 @@ import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/util/preset.dart';
 import 'package:vibration_poc/storage/serivce/firebase_storage_service.dart';
 import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
-import 'package:vibration_poc/vibration/widget/vibration_observer.dart';
+import 'package:vibration_poc/vibration/widget/vibration_switcher.dart';
 import 'package:vibration_poc/web_view/widget/web_page_display.dart';
 
 class PresetVisualization extends StatefulWidget {
   final String? initialFileId;
   final String? initialPreset;
   final bool showFilePicker;
-  final bool showVibrationStatus;
 
   const PresetVisualization({
     super.key,
     this.initialFileId,
     this.initialPreset,
     this.showFilePicker = true,
-    this.showVibrationStatus = false,
   });
 
   @override
@@ -39,12 +37,14 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   late String _selectedPreset;
   String? _fileName;
   late String? _fileId;
+  late String? _uid;
 
   @override
   void initState() {
     super.initState();
     _selectedPreset = widget.initialPreset ?? presets[Random().nextInt(presets.length - 1)];
     _fileId = widget.initialFileId;
+    _uid = _authService.currentUser?.uid;
   }
 
   @override
@@ -54,16 +54,14 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   }
 
   void _deleteVibrationForCurrentUser() {
-    final uid = _authService.currentUser?.uid;
-    if (uid != null) {
-      _vibrationRepo.delete(uid);
+    if (_uid != null) {
+      _vibrationRepo.delete(_uid!);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final entries = presets.map((presetName) => DropdownMenuEntry(value: presetName, label: presetName));
-    final uid = _authService.currentUser?.uid;
 
     return Column(
       spacing: smallGapSize,
@@ -74,13 +72,7 @@ class _PresetVisualizationState extends State<PresetVisualization> {
           initialSelection: _selectedPreset,
           onSelected: (value) => value != null ? setState(() => _selectedPreset = value) : null,
         ),
-        if (uid != null)
-          VibrationObserver(
-            deviceId: uid,
-            direction: Axis.horizontal,
-            showVibrationStatus: widget.showVibrationStatus,
-          ),
-        _buildVisualization(uid),
+        _buildVisualization(_uid),
       ],
     );
   }
@@ -94,12 +86,18 @@ class _PresetVisualizationState extends State<PresetVisualization> {
       return ElevatedButton(onPressed: null, child: Text("Picking files not supported on iOS devices"));
     }
     return Padding(
-      padding: const EdgeInsets.only(left: smallGapSize),
+      padding: const EdgeInsets.symmetric(horizontal: smallGapSize),
       child: Row(
-        spacing: smallGapSize,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ElevatedButton(onPressed: _pickFile, child: Text("Pick a File")),
-          if (_fileName != null) Flexible(child: Text(_fileName!, overflow: TextOverflow.ellipsis)),
+          Row(
+            spacing: smallGapSize,
+            children: [
+              ElevatedButton(onPressed: _pickFile, child: Text("Pick a File")),
+              if (_fileName != null) Text(_fileName!, overflow: TextOverflow.ellipsis),
+            ],
+          ),
+          VibrationSwitcher(deviceId: _uid),
         ],
       ),
     );
