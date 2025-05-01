@@ -34,29 +34,25 @@ class _SteppedTaskPageState extends State<SteppedTaskPage> {
   Widget build(BuildContext context) {
     return PageWrapper(
       title: _finishedTest ? null : 'Song ${_isGuessing ? 'Guessing' : 'Playing'} - Step ${_currentStep + 1}',
-      floatingActionButton: _finishedTest
+      floatingActionButton: _finishedTest || _isGuessing && _currentlySelectedOption == null
           ? null
-          : FloatingActionButton(
-              onPressed: () => _isGuessing && _currentlySelectedOption == null ? null : _nextStep(),
-              child: Icon(Icons.navigate_next),
-            ),
+          : FloatingActionButton(onPressed: () => _nextStep(), child: Icon(Icons.navigate_next)),
       child: _buildChild(),
     );
   }
 
   Widget _buildChild() {
-    if (_finishedTest) {
-      return _buildFinishedTest();
-    }
-
-    if (_isGuessing) {
-      return _buildRadioOptions();
-    }
-
-    return PresetVisualization(
-      initialFileId: _songIdentifiers[_currentStep],
-      showFilePicker: false,
-      showVibration: false,
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 400),
+      child: _finishedTest
+          ? _buildFinishedTest()
+          : _isGuessing
+              ? _buildRadioOptions()
+              : PresetVisualization(
+                  initialFileId: _songIdentifiers[_currentStep],
+                  showFilePicker: false,
+                  showVibration: false,
+                ),
     );
   }
 
