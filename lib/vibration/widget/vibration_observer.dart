@@ -26,10 +26,6 @@ class VibrationObserver extends StatelessWidget {
     return HandlingStreamBuilder(
       stream: _vibrationMetadataRepo.observeDocument(deviceId),
       builder: (context, vibrationMetadata) {
-        if (vibrationMetadata == null) {
-          return Text('No audio file picked via paired device');
-        }
-
         final switcher = VibrationSwitcher(deviceId: deviceId);
 
         if (!showVibrationStatus) {
@@ -42,7 +38,9 @@ class VibrationObserver extends StatelessWidget {
           spacing: smallGapSize,
           children: [
             switcher,
-            _buildVibrationStatus(vibrationMetadata.vibrationStatus),
+            vibrationMetadata == null
+                ? Text('No audio playing currently')
+                : _buildVibrationStatus(vibrationMetadata.vibrationStatus),
           ],
         );
       },
