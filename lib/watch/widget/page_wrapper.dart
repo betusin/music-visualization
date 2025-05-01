@@ -26,15 +26,16 @@ class PageWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final shouldNotBuildAppBar = title == null && actions.isNullOrEmpty;
 
+    final showWarning = MediaQuery.of(context).size.height > watchSize && !_amplitudeVibrationService.hasVibrator;
+
     return Scaffold(
-      bottomSheet: _amplitudeVibrationService.hasVibrator ? null : _buildWarningContainer(context),
+      bottomSheet: !showWarning ? null : _buildWarningContainer(context),
       appBar: shouldNotBuildAppBar ? null : AppBar(title: Text(title!), centerTitle: false, actions: actions),
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
       body: SafeArea(
         child: Padding(
-          padding:
-              _amplitudeVibrationService.hasVibrator ? EdgeInsets.zero : EdgeInsets.symmetric(vertical: largeGapSize),
+          padding: !showWarning ? EdgeInsets.zero : EdgeInsets.symmetric(vertical: largeGapSize),
           child: child,
         ),
       ),

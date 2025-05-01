@@ -9,3 +9,5 @@ const largeGapSize = 24.0;
 
 const cardRadius = 16.0;
 final cardCircularRadius = BorderRadius.circular(cardRadius);
+
+const watchSize = 210;

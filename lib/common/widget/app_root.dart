@@ -31,7 +31,7 @@ class AppRoot extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     // TODO(betka): use this instead of guessing min height? (watchShape is part of wear package and the build fails with that)
     // final watch = WatchShape.of(context);
-    return size.height < 210;
+    return size.height < watchSize;
   }
 
   Widget _buildMainPage() {
