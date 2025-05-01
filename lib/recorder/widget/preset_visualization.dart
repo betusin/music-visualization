@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_kit/collection_repo/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration_poc/auth/service/auth_service.dart';
 import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/util/preset.dart';
 import 'package:vibration_poc/storage/serivce/firebase_storage_service.dart';
+import 'package:vibration_poc/vibration/model/vibration_metadata.dart';
 import 'package:vibration_poc/vibration/widget/vibration_observer.dart';
 import 'package:vibration_poc/web_view/widget/web_page_display.dart';
 
@@ -30,6 +32,7 @@ class PresetVisualization extends StatefulWidget {
 
 class _PresetVisualizationState extends State<PresetVisualization> {
   final _firebaseStorageService = get<FirebaseStorageService>();
+  final _vibrationRepo = get<FirestoreRepository<VibrationMetadata>>();
   final _authService = get<AuthService>();
 
   late String _selectedPreset;
@@ -41,6 +44,15 @@ class _PresetVisualizationState extends State<PresetVisualization> {
     super.initState();
     _selectedPreset = widget.initialPreset ?? presets.first;
     _fileId = widget.initialFileId;
+  }
+
+  @override
+  void dispose() {
+    final uid = _authService.currentUser?.uid;
+    if (uid != null) {
+      _vibrationRepo.delete(uid);
+    }
+    super.dispose();
   }
 
   @override
