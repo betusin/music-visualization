@@ -15,7 +15,7 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   static final List<Widget> _pages = <Widget>[
     PresetVisualization(),
-    Expanded(child: VibrationSwitcherAndAdjuster()),
+    VibrationSwitcherAndAdjuster(),
     AnimationWithVibration(),
     PairPageContent(),
   ];
