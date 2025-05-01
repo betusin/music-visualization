@@ -10,7 +10,6 @@ import 'package:vibration_poc/vibration/model/vibration_status_enum.dart';
 import 'package:vibration_poc/vibration/util/amplitude_constants.dart';
 import 'package:vibration_poc/vibration/util/amplitude_converter.dart';
 
-// TODO(betka): the normalization factor was just guessed
 const _defaultAmplitudeNormalizationFactor = 0.0;
 
 class AmplitudeVibrationService implements Disposable {
@@ -22,7 +21,15 @@ class AmplitudeVibrationService implements Disposable {
   StreamSubscription? _amplitudeSubscription;
   bool _manuallyStopped = false;
 
-  AmplitudeVibrationService(this._recorderController);
+  late final bool hasVibrator;
+
+  AmplitudeVibrationService(this._recorderController) {
+    _checkVibrationSupport();
+  }
+
+  Future<void> _checkVibrationSupport() async {
+    hasVibrator = await Vibration.hasVibrator() ?? await Vibration.hasCustomVibrationsSupport() ?? false;
+  }
 
   Stream<bool> get vibrationOnStream => _vibrationController.stream;
   Stream<double> get amplitudeStream => _amplitudeController.stream;
@@ -40,6 +47,10 @@ class AmplitudeVibrationService implements Disposable {
   }
 
   void _vibrateBasedOnAmplitude(double? amplitude) {
+    if (!hasVibrator) {
+      return;
+    }
+
     Vibration.cancel();
     if (amplitude != null && _canVibrate) {
       final normalizedAmplitude = max(amplitude + _amplitudeController.value, minDbFS);
