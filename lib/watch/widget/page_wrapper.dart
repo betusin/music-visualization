@@ -20,7 +20,8 @@ class PageWrapper extends StatelessWidget {
       floatingActionButton: floatingActionButton,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: _amplitudeVibrationService.hasVibrator ? smallGapSize : largeGapSize),
+          padding:
+              _amplitudeVibrationService.hasVibrator ? EdgeInsets.zero : EdgeInsets.symmetric(vertical: largeGapSize),
           child: child,
         ),
       ),
