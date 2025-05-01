@@ -24,6 +24,8 @@ class _VibrationSwitcherState extends State<VibrationSwitcher> {
   void initState() {
     super.initState();
     if (widget.deviceId != null) {
+      // TODO(betka): this can probably be solved better :(
+      _dataAmplitudeVibrationService.stopStreamingVibrationMetadata();
       _dataAmplitudeVibrationService.vibrateBasedOnDeviceId(widget.deviceId!);
     }
   }
