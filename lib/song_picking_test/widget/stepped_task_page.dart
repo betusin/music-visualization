@@ -10,9 +10,18 @@ import 'package:vibration_poc/song_picking_test/service/test_mode_controller.dar
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
-// TODO(betka): get chosen songs
-const _songIdentifiers = ['12.mp3', '124.mp3'];
-const _songNames = ['New Balance', 'The Dude'];
+const _songIdentifiers = [
+  'ed-sheeran-shape-of-you.mp3',
+  'nirvana-smells-like-teen-spirit.mp3',
+  'eminem-lose-yourself.mp3',
+  'beethoven-symphony-no-9-ode-to-joy.mp3'
+];
+const _songNames = [
+  'Shape Of You - Ed Sheeran (pop)',
+  'Smells Like Teen Spirit – Nirvana (rock)',
+  'Lose Yourself - Eminem (hip-hop)',
+  'Ode to Joy - Beethoven’s Symphony No. 9 (classical)',
+];
 final _count = _songIdentifiers.length;
 
 final _shuffledOptions = List.from(_songNames)..shuffle(Random());
