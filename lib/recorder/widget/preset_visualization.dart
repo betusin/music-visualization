@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_kit/collection_repo/firestore_repository.dart';
@@ -42,7 +43,7 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   @override
   void initState() {
     super.initState();
-    _selectedPreset = widget.initialPreset ?? presets.first;
+    _selectedPreset = widget.initialPreset ?? presets[Random().nextInt(presets.length - 1)];
     _fileId = widget.initialFileId;
   }
 
@@ -70,7 +71,7 @@ class _PresetVisualizationState extends State<PresetVisualization> {
         if (widget.showFilePicker) _buildFilePicker(),
         DropdownMenu(
           dropdownMenuEntries: entries.toList(),
-          initialSelection: presets.first,
+          initialSelection: _selectedPreset,
           onSelected: (value) => value != null ? setState(() => _selectedPreset = value) : null,
         ),
         if (uid != null)
