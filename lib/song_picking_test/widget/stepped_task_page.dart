@@ -6,6 +6,7 @@ import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/common/widget/main_page.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/recorder/widget/preset_visualization.dart';
+import 'package:vibration_poc/song_picking_test/service/test_mode_controller.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 import 'package:vibration_poc/watch/widget/page_wrapper.dart';
 
@@ -25,6 +26,7 @@ class SteppedTaskPage extends StatefulWidget {
 
 class _SteppedTaskPageState extends State<SteppedTaskPage> {
   final _amplitudeVibrationService = get<AmplitudeVibrationService>();
+  final _testModeController = get<TestModeController>();
 
   // TODO(betka): move these to controller?
   int _currentStep = 0;
@@ -69,7 +71,10 @@ class _SteppedTaskPageState extends State<SteppedTaskPage> {
           Text('Congrats! You Finished the test!'),
           Text('Your score was: $_correctAnswers/$_count'),
           ElevatedButton(
-              onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage())),
+              onPressed: () {
+                _testModeController.finishTestMode();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()));
+              },
               child: Text('Try full app')),
         ],
       ),
