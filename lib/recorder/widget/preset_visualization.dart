@@ -24,7 +24,7 @@ class PresetVisualization extends StatefulWidget {
     this.initialFileId,
     this.initialPreset,
     this.showFilePicker = true,
-    this.showVibrationStatus = true,
+    this.showVibrationStatus = false,
   });
 
   @override
