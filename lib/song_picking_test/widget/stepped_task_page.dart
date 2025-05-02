@@ -6,6 +6,7 @@ import 'package:vibration_poc/auth/service/auth_service.dart';
 import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/common/widget/main_page.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
+import 'package:vibration_poc/recorder/util/preset.dart';
 import 'package:vibration_poc/recorder/widget/preset_visualization.dart';
 import 'package:vibration_poc/song_picking_test/service/test_mode_controller.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
@@ -81,6 +82,7 @@ class _SteppedTaskPageState extends State<SteppedTaskPage> {
               ? _buildRadioOptions()
               : PresetVisualization(
                   initialFileId: _songIdentifiers[_currentStep],
+                  givenPresets: testPresets,
                   showFilePicker: false,
                 ),
     );

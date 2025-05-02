@@ -1,4 +1,11 @@
+const ownPreset = "chromatic circle";
+const randomPreset = "random";
+
+const testPresets = [ownPreset, randomPreset];
+
 const presets = [
+  ownPreset,
+  randomPreset,
   "\$\$\$ Royal - Mashup (197)",
   "\$\$\$ Royal - Mashup (220)",
   "\$\$\$ Royal - Mashup (431)",
@@ -52,7 +59,7 @@ const presets = [
   "Geiss, Flexi + Stahlregen - Thumbdrum Tokamak [crossfiring aftermath jelly mashup]",
   "Goody - The Wild Vort",
   "high-altitude basket unraveling - singh grooves nitrogen argon nz+",
-  "Idiot - Star Of Annon",
+  // "Idiot - Star Of Annon",
   "Krash + Illusion - Spiral Movement",
   "martin + flexi - diamond cutter [prismaticvortex.com] - camille - i wish i wish i wish i was constrained",
   "Martin - acid wiring",

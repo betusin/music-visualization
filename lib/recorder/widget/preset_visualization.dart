@@ -17,13 +17,16 @@ class PresetVisualization extends StatefulWidget {
   final String? initialFileId;
   final String? initialPreset;
   final bool showFilePicker;
+  final List<String>? givenPresets;
+  final List<String> _presets;
 
   const PresetVisualization({
     super.key,
     this.initialFileId,
     this.initialPreset,
     this.showFilePicker = true,
-  });
+    this.givenPresets,
+  }) : _presets = givenPresets ?? presets;
 
   @override
   State<PresetVisualization> createState() => _PresetVisualizationState();
@@ -42,7 +45,7 @@ class _PresetVisualizationState extends State<PresetVisualization> {
   @override
   void initState() {
     super.initState();
-    _selectedPreset = widget.initialPreset ?? presets[Random().nextInt(presets.length - 1)];
+    _selectedPreset = widget.initialPreset ?? widget._presets[Random().nextInt(widget._presets.length - 1)];
     _fileId = widget.initialFileId;
     _uid = _authService.currentUser?.uid;
   }
@@ -61,7 +64,7 @@ class _PresetVisualizationState extends State<PresetVisualization> {
 
   @override
   Widget build(BuildContext context) {
-    final entries = presets.map((presetName) => DropdownMenuEntry(value: presetName, label: presetName));
+    final entries = widget._presets.map((presetName) => DropdownMenuEntry(value: presetName, label: presetName));
 
     return Column(
       spacing: smallGapSize,
