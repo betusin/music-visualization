@@ -14,7 +14,7 @@ class VibrationMetadata implements IdentifiableSerializable {
   /// beat in milliseconds, defines delay between amplitudes
   final int beat;
 
-  /// amplitudes of vibration in dbFs
+  /// amplitudes of vibration in range 1 to 255
   final List<double> amplitudes;
 
   const VibrationMetadata({

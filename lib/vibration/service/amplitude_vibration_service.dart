@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:ui';
 
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
@@ -41,7 +41,8 @@ class AmplitudeVibrationService implements Disposable {
     _amplitudeSubscription = _recorderController.getAmplitudePeriodicStream().listen(
       (futureAmplitude) async {
         final amplitudeData = await futureAmplitude;
-        _vibrateBasedOnAmplitude(amplitudeData?.current);
+        final constrainedAmplitude = AmplitudeConverter.mapDbFsToVibrationAmplitude(amplitudeData?.current ?? 0);
+        _vibrateBasedOnAmplitude(constrainedAmplitude.toDouble());
       },
     );
   }
@@ -53,9 +54,8 @@ class AmplitudeVibrationService implements Disposable {
 
     Vibration.cancel();
     if (amplitude != null && _canVibrate) {
-      final normalizedAmplitude = max(amplitude + _amplitudeController.value, minDbFS);
-      final constrainedAmplitude = AmplitudeConverter.mapDbFsToVibrationAmplitude(normalizedAmplitude);
-      Vibration.vibrate(amplitude: constrainedAmplitude.toInt());
+      final normalizedAmplitude = clampDouble(amplitude, minAmplitude, maxAmplitude);
+      Vibration.vibrate(amplitude: normalizedAmplitude.toInt());
     }
   }
 
