@@ -21,15 +21,7 @@ class AmplitudeVibrationService implements Disposable {
   StreamSubscription? _amplitudeSubscription;
   bool _manuallyStopped = false;
 
-  late final bool hasVibrator;
-
-  AmplitudeVibrationService(this._recorderController) {
-    _checkVibrationSupport();
-  }
-
-  Future<void> _checkVibrationSupport() async {
-    hasVibrator = await Vibration.hasVibrator() ?? await Vibration.hasCustomVibrationsSupport() ?? false;
-  }
+  AmplitudeVibrationService(this._recorderController);
 
   Stream<bool> get vibrationOnStream => _vibrationController.stream;
   Stream<double> get amplitudeStream => _amplitudeController.stream;
@@ -48,10 +40,6 @@ class AmplitudeVibrationService implements Disposable {
   }
 
   void _vibrateBasedOnAmplitude(double? amplitude) {
-    if (!hasVibrator) {
-      return;
-    }
-
     Vibration.cancel();
     if (amplitude != null && _canVibrate) {
       final normalizedAmplitude = clampDouble(amplitude, minAmplitude, maxAmplitude);
