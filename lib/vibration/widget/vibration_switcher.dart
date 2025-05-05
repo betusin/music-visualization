@@ -31,6 +31,12 @@ class _VibrationSwitcherState extends State<VibrationSwitcher> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _dataAmplitudeVibrationService.stopStreamingVibrationMetadata();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return HandlingStreamBuilder(
       stream: _amplitudeVibrationService.vibrationOnStream,
