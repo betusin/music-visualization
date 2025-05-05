@@ -41,7 +41,7 @@ class AmplitudeVibrationService implements Disposable {
 
   void _vibrateBasedOnAmplitude(double? amplitude) {
     Vibration.cancel();
-    if (amplitude != null && _canVibrate) {
+    if (amplitude != null && _canVibrate && amplitude > 0) {
       final normalizedAmplitude = clampDouble(amplitude, minAmplitude, maxAmplitude);
       Vibration.vibrate(amplitude: normalizedAmplitude.toInt());
     }
