@@ -5,6 +5,7 @@ import 'package:vibration_poc/common/ui_constants.dart';
 import 'package:vibration_poc/ioc/ioc_container.dart';
 import 'package:vibration_poc/vibration/service/amplitude_vibration_service.dart';
 import 'package:vibration_poc/vibration/service/data_amplitude_vibration_service.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class VibrationSwitcher extends StatefulWidget {
   final ValueChanged<bool>? onToggle;
@@ -23,6 +24,8 @@ class _VibrationSwitcherState extends State<VibrationSwitcher> {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.enable();
+
     if (widget.deviceId != null) {
       // TODO(betka): this can probably be solved better :(
       _dataAmplitudeVibrationService.stopStreamingVibrationMetadata();
@@ -34,6 +37,7 @@ class _VibrationSwitcherState extends State<VibrationSwitcher> {
   void dispose() {
     super.dispose();
     _dataAmplitudeVibrationService.stopStreamingVibrationMetadata();
+    WakelockPlus.disable();
   }
 
   @override
