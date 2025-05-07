@@ -13,6 +13,8 @@ VibrationMetadata _$VibrationMetadataFromJson(Map<String, dynamic> json) =>
       amplitudes: (json['amplitudes'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
           .toList(),
+      startAt:
+          const TimestampConverter().fromJson(json['startAt'] as Timestamp),
       vibrationStatus: $enumDecodeNullable(
               _$VibrationStatusEnumMap, json['vibrationStatus']) ??
           VibrationStatus.playing,
@@ -24,6 +26,7 @@ Map<String, dynamic> _$VibrationMetadataToJson(VibrationMetadata instance) =>
       'vibrationStatus': _$VibrationStatusEnumMap[instance.vibrationStatus]!,
       'beat': instance.beat,
       'amplitudes': instance.amplitudes,
+      'startAt': const TimestampConverter().toJson(instance.startAt),
     };
 
 const _$VibrationStatusEnumMap = {

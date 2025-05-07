@@ -50,6 +50,10 @@ class AmplitudeVibrationService implements Disposable {
   Future<void> vibrateBasedOnVibrationMetadata(VibrationMetadata vibrationMetadata) async {
     _manuallyStart();
 
+    final now = DateTime.now();
+    final delayedStart = vibrationMetadata.startAt.difference(now);
+    await Future.delayed(delayedStart);
+
     for (final amplitude in vibrationMetadata.amplitudes) {
       if (vibrationMetadata.vibrationStatus == VibrationStatus.playing && !_manuallyStopped) {
         _vibrateBasedOnAmplitude(amplitude);
