@@ -23,7 +23,7 @@ const _songNames = [
   'Shape Of You - Ed Sheeran (pop)',
   'Smells Like Teen Spirit – Nirvana (rock)',
   'Lose Yourself - Eminem (hip-hop)',
-  'Ode to Joy - Beethoven’s Symphony No. 9 (classical)',
+  'Für Elise - Beethoven (classical)',
 ];
 final _count = _songIdentifiers.length;
 
