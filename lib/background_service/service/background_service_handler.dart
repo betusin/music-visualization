@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:vibration_poc/main.dart';
@@ -13,8 +11,8 @@ class BackgroundServiceHandler {
   Future<void> startBackgroundService() async {
     if (await _recorderController.hasPermission()) {
       await initializeService();
-      await Future.delayed(Duration(seconds: 2));
-      exit(0);
+      // await Future.delayed(Duration(seconds: 2));
+      // exit(0);
     } else {
       debugPrint("Permission denied. Cannot start background recording.");
     }
