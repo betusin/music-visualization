@@ -17,7 +17,7 @@ const _songIdentifiers = [
   'ed-sheeran-shape-of-you.mp3',
   'nirvana-smells-like-teen-spirit.mp3',
   'eminem-lose-yourself.mp3',
-  'beethoven-fur-elise.wav'
+  'beethoven-fur-elise.mp3'
 ];
 const _songNames = [
   'Shape Of You - Ed Sheeran (pop)',
