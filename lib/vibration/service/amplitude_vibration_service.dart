@@ -28,6 +28,9 @@ class AmplitudeVibrationService implements Disposable {
   bool get _canVibrate => _vibrationController.value;
 
   Future<void> vibrateBasedOnAmplitudeFromMicrophone() async {
+    if (!_canVibrate) {
+      return;
+    }
     _manuallyStart();
 
     _amplitudeSubscription = _recorderController.getAmplitudePeriodicStream().listen(
